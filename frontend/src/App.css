@@ -1,0 +1,738 @@
+/* src/components/Navbar.css */
+.navbar-brand .brand-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.nav-link {
+  margin-right: 15px;
+}
+
+.btn-outline-primary,
+.btn-outline-secondary {
+  border-radius: 20px;
+}
+
+/* src/components/HeroSection.css */
+.hero-section {
+  /* background-image: url('logo.svg'); */
+  background-size: cover;
+  background-position: center;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 50px;
+  text-align: center;
+  color: white;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+}
+
+.form-container {
+  margin-top: 20px;
+}
+
+.property-form .form-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.property-form select {
+  border-radius: 10px;
+}
+
+.property-form .btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+/* For responsive behavior */
+@media (max-width: 768px) {
+  .property-form .form-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
+.popup {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.popup h2 {
+  margin-bottom: 20px;
+}
+
+.popup form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.popup button {
+  margin-top: 10px;
+}
+
+html,
+body {
+  font-family: "Amazon Ember";
+  width: 100%;
+  /* height: 100%; */
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+}
+
+/* Scroll Bar */
+
+::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(66, 66, 66, 0.2);
+  border: 0px;
+  background-clip: padding-box;
+  border-radius: 5px;
+}
+
+nav {
+  background-color: #ff6700;
+  padding: 1rem 1rem;
+}
+.ms-auto {
+  margin-left: 1%;
+}
+.navbars{
+  position: relative;
+  left: 130px;
+}
+.company-name{
+  font-family:'Inknut Antiqua';
+  font-size: 20px;
+  font-weight: 600;
+  color: #ff6600;
+  position: relative;
+  text-transform: uppercase ;
+  left: -60px;
+}
+.logo{
+  position: relative;
+  left:-60px
+  
+}
+.slogen{
+  font-size: 0.95rem;
+  position: relative;
+  left:-60px;
+  color:#3F070E !important
+}
+
+.link {
+  margin-right: 80px;
+}
+.nav-link {
+  padding-right: 0px;
+
+  /* width: 100%; */
+  /* margin-right:40px; */
+}
+.btns {
+  margin-left: 40px;
+}
+.nav-link:hover {
+  background: #ff6700;
+  border-radius: 10px;
+  color: #fff !important;
+  /* width: 100%; */
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-hover:hover .dropdown-menu {
+  display: block;
+}
+/* .dropdown-toggle-icon-adjust::after { */
+  /* position: relative; Adjust the value as needed */
+  /* right: 2rem; */
+  /* padding-right: 1rem; */
+/* } */
+
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -5px;
+}
+#search_btn {
+  background-color: #febd69;
+}
+
+.input-group {
+  width: 90%;
+  margin-right: 35%;
+}
+
+#search_field {
+  height: 2.4rem;
+  padding: 1rem;
+}
+
+#login_btn,
+#view_btn {
+  background-color: #febd69;
+  padding: 0.4rem 1.8rem;
+  font-family: calibri;
+}
+
+
+#cart {
+  font-size: 1rem;
+  color: white;
+}
+
+#cart_count {
+  background-color: #febd69;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.2rem;
+  color: black;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+/* cursor */
+.custom-cursor {
+  position: fixed;
+  width: 10px; /* Width of the cursor */
+  height: 10px; /* Height of the cursor */
+  background-color: rgba(0, 0, 0, 0.7); /* Cursor color */
+  border-radius: 50%; /* Make it circular */
+  pointer-events: none; /* Prevent mouse events from triggering */
+  transform: translate(-50%, -50%); /* Center the cursor */
+  transition: background-color 0.2s ease; /* Smooth transition */
+  z-index: 1000;
+}
+
+.custom-cursor:hover {
+  background-color: rgba(255, 0, 0, 0.7); /* Change color on hover */
+}
+/* PROPERTY CARD */
+/* .project-card{
+  border: 1px solid orangered;
+} */
+
+/* Home page */
+
+#products_heading {
+  margin-top: 1.8rem;
+}
+
+.card {
+  height: 100%;
+}
+
+.card-title a {
+  color: #2e2e2e;
+}
+
+.card-title a:hover {
+  color: #fa9c23;
+  text-decoration: none;
+}
+
+.card-body {
+  padding-left: 0;
+}
+
+.card-text {
+  font-size: 1.4rem;
+}
+
+#view_btn {
+  background-color: #fa9c23;
+  color: white;
+}
+
+.card-img-top {
+  width: 200px;
+  height: 150px;
+}
+
+.ratings {
+  font-size: 1.2rem;
+  color: #fdcc0d;
+}
+
+#no_of_reviews {
+  font-size: 0.85rem;
+  color: grey;
+  margin-left: 0.5rem;
+}
+
+/* Loader */
+.loader {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20%;
+  width: 80px;
+  height: 80px;
+  padding-left: 0;
+}
+.loader:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fa9c23;
+  border-color: #fa9c23 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* whatapp.css */
+.whatsapp-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000; /* Keeps the button above other content */
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  
+}
+
+.whatsapp-icon {
+  animation: wave 2s infinite ease-in-out;
+  border-radius: 50; 
+  
+}
+
+/* Wave animation */
+@keyframes wave {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Moves the icon up */
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.whatsapp-icon:hover {
+  animation: wave 1s infinite ease-in-out;
+}
+
+
+/* Login & Register */
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5rem;
+
+  font-weight: 700;
+}
+
+.wrapper form {
+  padding: 2.5rem 3rem;
+}
+
+.wrapper form .btn {
+  background-color: #fa9c23;
+  border-color: #fa9c23;
+  color: white;
+  margin-top: 2.5rem;
+}
+
+.wrapper form a {
+  font-size: 0.9rem;
+  color: grey;
+}
+
+/* Avatar */
+.avatar {
+  display: inline-block;
+  margin-bottom: 0;
+  height: 3rem;
+  width: 3rem;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rounded-circle {
+  border-radius: 50% !important;
+}
+
+.btn.focus,
+.btn:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+/* Header User Profile */
+
+.avatar-nav {
+  margin-right: 0.6rem;
+  height: 2.2rem;
+  width: 2.2rem;
+  color: #fa9c23;
+}
+
+/* Checkout Steps */
+
+.checkout-progress div {
+  box-sizing: border-box;
+}
+
+.checkout-progress {
+  display: block;
+  clear: both;
+  margin: 20px auto;
+  width: auto;
+  font-family: sans-serif;
+  overflow: auto;
+}
+
+.step {
+  margin: 0;
+  border: 0;
+  letter-spacing: 1px;
+  line-height: 30px;
+  padding: 5px 10px 5px 15px;
+  color: grey;
+  text-decoration: none;
+  cursor: default;
+  font-weight: bold;
+  float: left;
+  height: auto;
+}
+
+.incomplete {
+  background: #eeeeee;
+}
+
+.active-step {
+  background: #fa9c23;
+  color: #fff;
+}
+
+.triangle-active {
+  float: left;
+  width: 0;
+  border-top: 20px solid transparent;
+  border-left: 15px solid #fa9c23;
+  border-bottom: 20px solid transparent;
+  margin-left: -1px;
+}
+
+.triangle2-active {
+  width: 0;
+  float: left;
+  border-top: 20px solid #fa9c23;
+  border-left: 15px solid #fff;
+  border-bottom: 20px solid #fa9c23;
+  margin-right: -1px;
+}
+
+.triangle-incomplete {
+  float: left;
+  width: 0;
+  border-top: 20px solid transparent;
+  border-left: 15px solid #eeeeee;
+  border-bottom: 20px solid transparent;
+  margin-left: -1px;
+}
+
+.triangle2-incomplete {
+  width: 0;
+  float: left;
+  border-top: 20px solid #eeeeee;
+  border-left: 15px solid #fff;
+  border-bottom: 20px solid #eeeeee;
+  margin-right: -1px;
+}
+
+/* User Profile */
+
+.avatar-profile {
+  height: 16rem;
+  width: 16rem;
+}
+
+.user-info h4 {
+  font-weight: 800;
+  color: grey;
+  margin-top: 2rem;
+}
+
+.user-info p {
+  font-size: 1.1rem;
+}
+
+#edit_profile {
+  background-color: #fa9c23;
+  border-color: #fa9c23;
+}
+
+/* Pagination */
+.page-item.active .page-link {
+  background-color: #fa9c23;
+  border-color: #fa9c23;
+}
+
+.page-link {
+  color: #fa9c23;
+}
+
+.page-link:hover {
+  color: #fa9c23;
+}
+
+/* Admin Sidebar */
+
+.sidebar-wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  min-height: 100vh;
+  font-weight: normal;
+
+  margin-top: 0;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+#sidebar {
+  min-width: 100%;
+  max-width: 100%;
+  background: #232f3e;
+  color: #fff;
+  transition: all 0.3s;
+}
+#sidebar.active {
+  margin-left: -250px;
+}
+
+#sidebar .sidebar-header {
+  padding: 20px;
+  background: #232f3e;
+}
+#sidebar ul.components {
+  padding: 5px 0px;
+  border-bottom: 1px solid #232f3e;
+}
+
+#sidebar ul li a {
+  padding: 10px;
+  font-size: 1.1em;
+  display: block;
+  color: white;
+  text-decoration: none;
+}
+#sidebar ul li a:hover {
+  color: #232f3e;
+  background: #fff;
+}
+
+#sidebar ul li div.dropdown-menu a {
+  color: black;
+}
+
+#sidebar ul li a i {
+  margin-right: 0.3rem;
+}
+
+#sidebar ul li.active > a,
+a[aria-expanded="true"] {
+  color: #fff;
+  background: #232f3e;
+}
+a[data-toggle="collapse"] {
+  position: relative;
+}
+.dropdown-toggle::after {
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+ul ul a {
+  font-size: 1rem !important;
+  padding-left: 30px !important;
+  background: #232f3e;
+}
+
+ul.CTAs {
+  padding: 20px;
+}
+
+ul.CTAs a {
+  text-align: center;
+  font-size: 0.9em !important;
+  display: block;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+/* Dashboard */
+
+.card-font-size {
+  font-size: 1.5rem;
+}
+
+@media screen and (max-width: 980px) {
+  .search {
+    width: 20px !important;
+  }
+  .company-name{
+    font-family:'Inknut Antiqua';
+    font-size: 18px;
+    font-weight: 400;
+    color: #ff6600;
+    position: relative;
+  left:0px
+  }
+  .slogen{
+    font-size: 0.67rem;
+    position: relative;
+    left:0px
+  }
+  .logo{
+    position: relative;
+  left:0px
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .search {
+    width: 20px !important;
+  }
+  .navbars{
+    position: relative;
+    left: 0px;
+  }
+  .company-name{
+    font-family:'Inknut Antiqua';
+    font-size: 15px;
+    font-weight: 400;
+    color: #ff6600;
+    position: relative;
+  left:0px
+  }
+  .slogen{
+    font-size: 0.67rem;
+    position: relative;
+    left:0px
+  }
+  .logo{
+    position: relative;
+  left:0px;
+  }
+}
+@media screen and (max-width: 480px){
+  .company-name{
+    font-family:'Inknut Antiqua';
+    font-size: 12px;
+    font-weight: 400;
+    color: #ff6600;
+  }
+  .slogen{
+    font-size: 8.5px !important; 
+  }
+  .logo{
+    height: 40px !important;
+}
+   /* Adjust the icon size within the toggle button */
+   .custom-navbar-toggle .navbar-toggler-icon {
+    width: 0.8rem ;
+    height: 1rem ;
+  }
+}
+  /* Import this CSS file if not already done */
+/* Ensure styles apply specifically in mobile view */
+@media (max-width: 368px) {
+  /* Reduce the padding and font size for mobile */
+  .custom-navbar-toggle {
+    padding: 0.25rem 0.5rem ;
+    font-size: 0.9rem ;
+  }
+  .company-name{
+    font-family:'Inknut Antiqua';
+    font-size: 9.3px;
+    font-weight: 400;
+    color: #ff6600;
+  }
+  .slogen{
+    font-size: 7.8px !important; 
+  }
+  /* Adjust the icon size within the toggle button */
+  .custom-navbar-toggle .navbar-toggler-icon {
+    width: 1rem ;
+    height: 1rem ;
+  }
+  .logo{
+    height: 35px !important;
+}
+
+}

@@ -1,0 +1,98 @@
+/* Container for the entire section */
+.contact-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.contact{
+  height: 130vh;
+}
+
+/* Styling for contact information section */
+.contact-info {
+  flex: 1;
+}
+
+.contact-item {
+  margin-bottom: 30px;
+}
+
+.contact-item h3 {
+  font-size: 1.5em;
+  color: #000;
+  margin-bottom: 10px;
+}
+.contact-item h5{
+  color: #FF6600;
+}
+
+.contact-item p {
+  font-size: 1em;
+  color: #000;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Styling for Google Map section */
+.contact-map {
+  flex: 1;
+  min-width: 400px;
+}
+
+.contact-map iframe {
+  width: 100%;
+  height: 400px;
+  border-radius: 8px;
+  border: 0;
+}
+ Label{
+  color:#000 !important;
+  font-weight: bolder;
+}
+
+
+.glass-effect {
+  /* position: relative; */
+  background: rgba(255, 255, 255, 0.15); /* Semi-transparent background */
+  border-radius: 15px; /* Smooth corners */
+  padding: 20px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  backdrop-filter: blur(7px); /* Glass blur effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border for glass look */
+  /* margin: 20px; */
+  z-index: 3;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .contact-section {
+    flex-direction: column;
+  }
+ .contact{
+  height: 190vh;
+ }
+  .contact-map iframe {
+    height: 300px;
+  }
+
+  .contact-info {
+    margin-bottom: 20px;
+  }
+  .contact-item h3 {
+    font-size: 1.2em;
+    color: #000;
+    margin-bottom: 10px;
+  }
+  .contact-item p {
+    font-size: 0.9em;
+    color: #000;
+    margin:0;
+}
+}

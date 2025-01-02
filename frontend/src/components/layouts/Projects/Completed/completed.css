@@ -1,0 +1,40 @@
+/* Completed.css */
+
+.card-3d {
+    perspective: 1000px; /* Adds depth for the 3D effect */
+  }
+  
+  .image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 300px; /* Set the height of the card */
+  }
+  
+  .card-3d:hover .image-container {
+    /* transform: rotateY(10deg) rotateX(10deg) scale(1.05); 3D tilt and zoom effect */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Adds shadow for more depth */
+  }
+  
+  .image {
+    width: 100%;
+    height: 100%; /* Ensure the image covers the container height */
+    object-fit: cover; /* Crop the image to fill the container */
+    transition: transform 0.3s ease;
+  }
+  
+  .image-container:hover .image {
+    transform: scale(1.1); /* Slightly zooms in the image */
+  }
+  
+  .logo-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  

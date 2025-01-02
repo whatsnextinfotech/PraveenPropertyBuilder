@@ -1,0 +1,258 @@
+/* Importing Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* General Styling */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 20px;
+}
+h1{
+  font-size: 54px;
+}
+
+h2 {
+  font-size: 34px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Adding font size and weight variations */
+p, ul li {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #555;
+}
+
+ul li {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+/* Hover Effects for Images */
+/* .facility-image {
+  opacity: 0;
+  transition: opacity 0.6s ease-in, transform 0.6s ease-in;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.facility-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.facility-image.show {
+  opacity: 1;
+} */
+
+/* Reveal Animation for Content Boxes */
+/* .reveal {
+  opacity: 0;
+  transform: translateX(100px);
+  transition: all 0.8s ease-in-out;
+}
+
+.reveal.left {
+  transform: translateX(-100px);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateX(0);
+} */
+
+/* Gradient Background for Sections */
+/* .Specification, .School, .Hospital {
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  padding: 50px 0;
+  border-radius: 15px;
+  margin-bottom: 50px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease-in-out;
+}
+
+.Specification:hover, .School:hover, .Hospital:hover {
+  box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px);
+} */
+
+/* Styling for List Items */
+ul.Specification {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.Specification li {
+  margin-bottom: 15px;
+  font-size: 20px;
+  padding-left: 20px;
+  position: relative;
+}
+
+ul.Specification li:before {
+  content: '*';
+  font-size: 18px;
+  color: #fda085;
+  position: absolute;
+  left: 0;
+  top: 2px;
+}
+
+/* Heading Design */
+h2 {
+  background: linear-gradient(to right, #f6d365 0%, #fda085 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-family: 'Poppins', sans-serif;
+  font-size: 34px;
+}
+
+/* .facility-image{
+  height:100px !important;
+} */
+/* Responsive Layout Enhancements */
+@media (max-width: 768px) {
+  /* .reveal {
+    transform: translateX(0);
+  } */
+
+  .Specification, .School, .Hospital {
+    margin-bottom: 30px;
+  }
+  h1{
+    font-size: 44px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  ul.Specification li {
+    font-size: 16px;
+  }
+}
+
+
+.imgsize{
+  height: 50vh;
+}
+
+
+
+
+
+
+
+/* CarouselComponent.css */
+
+  .carousel-wrapper {
+    max-width: 100%;
+    margin: auto;
+    padding: 20px;
+  }
+  .carousel-container {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;  /* Prevents overflow */
+  }
+  
+  .cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    height: 300px;
+    /* width: 300px; */
+    margin: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  
+  /* Hover effect for interactive feel */
+  .cards:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .cards-image {
+    width: 100%;
+    height: 250px ;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease; /* Zoom effect */
+  }
+  
+  /* Zoom in on image hover */
+  .cards:hover .cards-image {
+    transform: scale(1.1);
+  }
+  
+  /* button */
+  .download-button {
+    background-color: #ff6600;
+    border: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+    margin-bottom: 15px;
+  }
+  
+  .download-button:hover {
+    background-color:#ff6600;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .download-button:active {
+    transform: translateY(0px);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  @media screen and (max-width: 780px) {
+ 
+    
+    
+  }
+/* Mobile View: Show only one card with full width and height */
+@media (max-width: 464px) {
+  .react-multicarousel-item {
+    width: 100% !important;  /* Ensure each item takes the full width */
+    margin: 10px !important;  /* Ensure margin between items */
+  }
+
+  .cards {
+    width: 100% !important;  /* Full width of the container */
+    margin: 10px !important;  /* Adjust margin to increase the gap */
+    height: auto !important; /* Adjust height based on content */
+  }
+
+  .cards-image {
+    height: 200px; /* You can adjust the image height on mobile as needed */
+  }
+
+  .carousel-wrapper {
+    padding: 10px 0;  /* Optional: Adjust padding for mobile */
+  }
+
+  .carousel-container {
+    display: block;  /* Use block for better mobile layout */
+  }
+}
