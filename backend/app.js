@@ -40,7 +40,7 @@ const upload = multer({ storage: storage });
 app.use('/images', express.static(uploadDir));
 
 // Upload Endpoint
-app.post('/upload', upload.single('product'), (req, res) => {
+app.post('/api/v1/upload', upload.single('product'), (req, res) => {
     console.log("File:", req.file);
 
     if (!req.file) {
@@ -72,7 +72,7 @@ const upload2 = multer({ storage: storage2 });
 app.use('/image1', express.static(uploadDir2));
 
 // Upload Endpoint for second directory
-app.post('/upload1', upload2.single('product1'), (req, res) => {
+app.post('/api/v1/upload1', upload2.single('product1'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: 0, message: 'File not uploaded' });
     }
@@ -103,7 +103,7 @@ const upload3 = multer({ storage: storage3 });
 app.use('/image3', express.static(uploadDir3));
 
 // Upload Endpoint for second directory
-app.post('/upload3', upload3.single('product2'), (req, res) => {
+app.post('/api/v1/upload3', upload3.single('product2'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: 0, message: 'File not uploaded' });
     }
@@ -131,7 +131,7 @@ const storage4 = multer.diskStorage({
 
 const upload4 = multer({ storage: storage4 });
 
-app.use('/image4', express.static(uploadDir4));
+app.use('/api/v1/image4', express.static(uploadDir4));
 
 // Upload Endpoint for second directory
 app.post('/upload4', upload4.single('product3'), (req, res) => {
@@ -164,7 +164,7 @@ const uploadschool = multer({ storage: storageschool });
 app.use('/imageschool', express.static(uploadDirschool));
 
 // Upload Endpoint for second directory
-app.post('/uploadschool', uploadschool.single('school'), (req, res) => {
+app.post('/api/v1/uploadschool', uploadschool.single('school'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: 0, message: 'File not uploaded' });
     }
@@ -195,7 +195,7 @@ const uploadcollege = multer({ storage: storagecollege });
 app.use('/imagecollege', express.static(uploadDircollege));
 
 // Upload Endpoint for second directory
-app.post('/uploadcollege', uploadcollege.single('college'), (req, res) => {
+app.post('/api/v1/uploadcollege', uploadcollege.single('college'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: 0, message: 'File not uploaded' });
     }
@@ -226,7 +226,7 @@ const uploadhospital = multer({ storage: storagehospital });
 app.use('/imagehospital', express.static(uploadDirhospital));
 
 // Upload Endpoint for second directory
-app.post('/uploadhospital', uploadhospital.single('hospital'), (req, res) => {
+app.post('/api/v1/uploadhospital', uploadhospital.single('hospital'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: 0, message: 'File not uploaded' });
     }
@@ -332,7 +332,7 @@ const Product = mongoose.model("Product", {
 
 
 // Add Product Endpoint
-app.post('/addproduct', async (req, res) => {
+app.post('/api/v1/addproduct', async (req, res) => {
     let products = await Product.find({});
     let id;
     if (products.length > 0) {
@@ -373,7 +373,7 @@ app.post('/addproduct', async (req, res) => {
 });
 
 // Product Update Endpoint
-app.put('/updateproduct/:id', async (req, res) => {
+app.put('/api/v1/updateproduct/:id', async (req, res) => {
     try {
         // Find product by id and update with new data
         const updatedProduct = await Product.findByIdAndUpdate(
@@ -419,7 +419,7 @@ app.put('/updateproduct/:id', async (req, res) => {
 });
 
 // Get Product by ID Endpoint
-app.get('/product/:id', async (req, res, next) => {
+app.get('/api/v1/product/:id', async (req, res, next) => {
     const product = await Product.findById(req.params.id).populate('name');
 
     if (!product) {
@@ -433,7 +433,7 @@ app.get('/product/:id', async (req, res, next) => {
 });
 
 // Delete Product Endpoint
-app.delete('/removeproduct', async (req, res) => {
+app.delete('/api/v1/removeproduct', async (req, res) => {
     const { id } = req.body; // Destructure the ID from the request body
 
     console.log("Product ID received:", id); // Log the ID being passed
@@ -473,14 +473,14 @@ app.delete('/removeproduct', async (req, res) => {
 });
 
 // Get All Products Endpoint
-app.get('/allproducts', async (req, res) => {
+app.get('/api/v1/allproducts', async (req, res) => {
     let products = await Product.find({});
     console.log("All product fetched");
     res.send(products);
 });
 
 // Recently Added Products Endpoint
-app.get('/recentlyadded', async (req, res) => {
+app.get('/api/v1/recentlyadded', async (req, res) => {
     let products = await Product.find({ category: "Ongoing Project" });
     let recentlyadded = products.slice(0).slice(-6);
     console.log("Recently Added Fetched");
@@ -488,21 +488,21 @@ app.get('/recentlyadded', async (req, res) => {
 });
 
 // Ongoing Project Products Endpoint
-app.get('/ongoingproject', async (req, res) => {
+app.get('/api/v1/ongoingproject', async (req, res) => {
     let products = await Product.find({ category: "Ongoing Project" }).sort({ id: -1 });
     console.log("Ongoing Project Fetched");
     res.send(products);
 });
 
 // Completed Project Products Endpoint
-app.get('/completedproject', async (req, res) => {
+app.get('/api/v1/completedproject', async (req, res) => {
     let products = await Product.find({ category: "Completed Project" });
     console.log("Completed Project Fetched");
     res.send(products);
 });
 
 // Upcoming Project Products Endpoint
-app.get('/upcomingproject', async (req, res) => {
+app.get('/api/v1/upcomingproject', async (req, res) => {
     let products = await Product.find({ category: "Upcoming Project" });
     console.log("Upcoming Project Fetched");
     res.send(products);
