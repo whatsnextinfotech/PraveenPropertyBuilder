@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from '../../actions/productActions';
 import { useParams } from 'react-router-dom';
@@ -10,10 +10,12 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { motion } from 'framer-motion';
+
+
 import './ProductDetail.css';
 
 const ProductDetail = () => {
-  const { loading, product } = useSelector(state => state.productState);
+  const { product } = useSelector(state => state.productState);
   const dispatch = useDispatch();
   const { id } = useParams();
 

@@ -37,7 +37,7 @@ import Facility from './components/layouts/Projects/Fasility';
 import Pop from './components/layouts/pop';
 
 import ContactPage from './components/layouts/Contact/contact';
-import CustomCursor from './components/layouts/cur';
+// import CustomCursor from './components/layouts/cur';
 // import PraveenSaiEnclave from './components/layouts/Projects/OngoingProject5';
 // import PraveenSaiGarden from './components/layouts/Projects/OngoingProject6';
 import Completed from './components/layouts/Projects/Completed/Completed';
@@ -108,7 +108,7 @@ function App() {
                   <Route path='/admin/addproject' element={ <ProtectedRoute isAdmin={true}><Addproduct/></ProtectedRoute> } />
                   <Route path='/admin/listproduct' element={ <ProtectedRoute isAdmin={true}><Listproduct/></ProtectedRoute> } />
                   <Route path='/admin/user/:id' element={ <ProtectedRoute isAdmin={true}><UpdateUser/></ProtectedRoute> } />
-                  <Route path='/api/v1/product/:id' element={<ProductDetail/>} />
+                  <Route path='/product/:id' element={<ProductDetail/>} />
               
                 </Routes>
                 <WhatsAppButton />
