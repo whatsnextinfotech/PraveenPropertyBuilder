@@ -54,9 +54,9 @@ const ProductDetail = () => {
   };
 
   const items = [
-    { id: 1, image: product.image1 },
-    { id: 2, image: product.image2 },
-    { id: 3, image: product.image3 },
+    { id: 1, image: product?.image1 },
+    { id: 2, image: product?.image2 },
+    { id: 3, image: product?.image3 },
   ];
 
   return (
