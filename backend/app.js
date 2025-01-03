@@ -20,30 +20,29 @@ app.use(cors());
 
 const auth = require('./routes/auth');
 
-// Image Storage Engine
-// Define upload directory
-const uploadDir = path.join(__dirname, 'upload/images');
+
+// Absolute path for the upload directory
+const uploadDir = path.join(__dirname, 'upload', 'images');
 
 // Create the directory if it doesn't exist
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Configure Multer storage engine
+// Image Storage Engine
 const storage = multer.diskStorage({
-    destination: uploadDir, // Set upload directory
+    destination: uploadDir, // Store files in the 'images' folder
     filename: (req, file, cb) => {
-        const uniqueSuffix = `${Date.now()}${path.extname(file.originalname)}`;
-        cb(null, `${file.fieldname}_${uniqueSuffix}`);
+        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`); // Use unique filenames
     },
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
-// Serve static files from the upload directory
+// Serve images statically from the upload directory
 app.use('/api/v1/images', express.static(uploadDir));
 
-// Upload endpoint
+// Upload Endpoint
 app.post('/api/v1/upload', upload.single('product'), (req, res) => {
     console.log("File uploaded:", req.file);
 
@@ -51,7 +50,7 @@ app.post('/api/v1/upload', upload.single('product'), (req, res) => {
         return res.status(400).json({ success: 0, message: "File not uploaded" });
     }
 
-    // Respond with the accessible URL of the uploaded file
+    // Return the image URL
     res.json({
         success: 1,
         image_url: `https://praveenproperties.com/api/v1/images/${req.file.filename}`,
@@ -60,59 +59,73 @@ app.post('/api/v1/upload', upload.single('product'), (req, res) => {
 
 //test
 // Image Storage Engine for second upload endpoint
-const uploadDir2 = './upload/image1';
+const uploadDir2 = path.join(__dirname, 'upload', 'image1');
+
+// Create the directory if it doesn't exist
 if (!fs.existsSync(uploadDir2)) {
     fs.mkdirSync(uploadDir2, { recursive: true });
 }
 
+// Multer storage configuration for the second directory
 const storage2 = multer.diskStorage({
-    destination: uploadDir2,
+    destination: uploadDir2, // Store files in the 'image1' folder
     filename: (req, file, cb) => {
-        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`); // Use unique filenames
     },
 });
 
 const upload2 = multer({ storage: storage2 });
 
-app.use('/image1', express.static(uploadDir2));
+// Serve images statically from the second upload directory
+app.use('/api/v1/image1', express.static(uploadDir2));
 
-// Upload Endpoint for second directory
+// Upload Endpoint for the second directory
 app.post('/api/v1/upload1', upload2.single('product1'), (req, res) => {
+    console.log("File uploaded:", req.file);
+
     if (!req.file) {
         return res.status(400).json({ success: 0, message: 'File not uploaded' });
     }
 
+    // Return the image URL
     res.json({
         success: 1,
         image_url: `https://praveenproperties.com/api/v1/image1/${req.file.filename}`,
     });
-});
+})
 
 //image3
 
 // Image Storage Engine for second upload endpoint
-const uploadDir3 = './upload/image3';
+const uploadDir3 = path.join(__dirname, 'upload', 'image3');
+
+// Create the directory if it doesn't exist
 if (!fs.existsSync(uploadDir3)) {
     fs.mkdirSync(uploadDir3, { recursive: true });
 }
 
+// Multer storage configuration for the third directory
 const storage3 = multer.diskStorage({
-    destination: uploadDir3,
+    destination: uploadDir3, // Store files in the 'image3' folder
     filename: (req, file, cb) => {
-        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`); // Use unique filenames
     },
 });
 
 const upload3 = multer({ storage: storage3 });
 
-app.use('/image3', express.static(uploadDir3));
+// Serve images statically from the third upload directory
+app.use('/api/v1/image3', express.static(uploadDir3));
 
-// Upload Endpoint for second directory
+// Upload Endpoint for the third directory
 app.post('/api/v1/upload3', upload3.single('product2'), (req, res) => {
+    console.log("File uploaded:", req.file);
+
     if (!req.file) {
         return res.status(400).json({ success: 0, message: 'File not uploaded' });
     }
 
+    // Return the image URL
     res.json({
         success: 1,
         image_url: `https://praveenproperties.com/api/v1/image3/${req.file.filename}`,
@@ -121,82 +134,92 @@ app.post('/api/v1/upload3', upload3.single('product2'), (req, res) => {
 
 //images 4
 
-// Image Storage Engine for second upload endpoint
-const uploadDir4 = './upload/image4';
+// Absolute path for the fourth upload directory
+const uploadDir4 = path.join(__dirname, 'upload', 'image4');
+
+// Create the directory if it doesn't exist
 if (!fs.existsSync(uploadDir4)) {
     fs.mkdirSync(uploadDir4, { recursive: true });
 }
 
+// Multer storage configuration for the fourth directory
 const storage4 = multer.diskStorage({
-    destination: uploadDir4,
+    destination: uploadDir4, // Store files in the 'image4' folder
     filename: (req, file, cb) => {
-        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`); // Use unique filenames
     },
 });
 
 const upload4 = multer({ storage: storage4 });
 
+// Serve images statically from the fourth upload directory
 app.use('/api/v1/image4', express.static(uploadDir4));
 
-// Upload Endpoint for second directory
-app.post('/upload4', upload4.single('product3'), (req, res) => {
+// Upload Endpoint for the fourth directory
+app.post('/api/v1/upload4', upload4.single('product3'), (req, res) => {
+    console.log("File uploaded:", req.file);
+
     if (!req.file) {
         return res.status(400).json({ success: 0, message: 'File not uploaded' });
     }
 
+    // Return the image URL
     res.json({
         success: 1,
         image_url: `https://praveenproperties.com/api/v1/image4/${req.file.filename}`,
     });
 });
 
-
-
 //school image
-// Define directory for storing uploaded images
-const uploadDirschool = path.join(__dirname, 'upload/imageschool');
+// Image Storage Engine for second upload endpoint
+const uploadDirschool = path.join(__dirname, 'upload', 'imageschool');
 
-// Create the directory if it doesn't exist
+// Check if directory exists, if not create it
 if (!fs.existsSync(uploadDirschool)) {
     fs.mkdirSync(uploadDirschool, { recursive: true });
 }
 
-// Configure Multer storage
+// Multer storage configuration
 const storageschool = multer.diskStorage({
-    destination: uploadDirschool, // Save files in the correct directory
+    destination: (req, file, cb) => {
+        cb(null, uploadDirschool); // Store in the 'imageschool' directory
+    },
     filename: (req, file, cb) => {
-        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`); // Use unique filenames
     },
 });
 
+// Initialize multer with storage configuration
 const uploadschool = multer({ storage: storageschool });
 
-// Serve static files from the correct directory
+// Serve static files (images) from the upload directory
 app.use('/api/v1/imageschool', express.static(uploadDirschool));
 
-// Upload endpoint for handling file uploads
+// Upload endpoint for the second directory
 app.post('/api/v1/uploadschool', uploadschool.single('school'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: 0, message: 'File not uploaded' });
     }
 
-    // Respond with the accessible URL of the uploaded file
+    // Send back the URL to access the image
     res.json({
         success: 1,
         image_url: `https://praveenproperties.com/api/v1/imageschool/${req.file.filename}`,
     });
 });
-
-
-
-
 //college image
 
 // Image Storage Engine for second upload endpoint
-const uploadDircollege = './upload/imagecollege';
-if (!fs.existsSync(uploadDircollege)) {
-    fs.mkdirSync(uploadDircollege, { recursive: true });
-}
+// Function to create directory if it doesn't exist
+const createDirIfNotExist = (dirPath) => {
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+    }
+};
+
+// Image Storage Engine for College Images
+const uploadDircollege = path.join(__dirname, 'upload', 'imagecollege');
+createDirIfNotExist(uploadDircollege);
 
 const storagecollege = multer.diskStorage({
     destination: uploadDircollege,
@@ -206,28 +229,21 @@ const storagecollege = multer.diskStorage({
 });
 
 const uploadcollege = multer({ storage: storagecollege });
+app.use('/api/v1/imagecollege', express.static(uploadDircollege));
 
-app.use('/imagecollege', express.static(uploadDircollege));
-
-// Upload Endpoint for second directory
 app.post('/api/v1/uploadcollege', uploadcollege.single('college'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: 0, message: 'File not uploaded' });
     }
-
     res.json({
         success: 1,
         image_url: `https://praveenproperties.com/api/v1/imagecollege/${req.file.filename}`,
     });
 });
 
-//hospital images
-
-// Image Storage Engine for second upload endpoint
-const uploadDirhospital = './upload/imagehospital';
-if (!fs.existsSync(uploadDirhospital)) {
-    fs.mkdirSync(uploadDirhospital, { recursive: true });
-}
+// Image Storage Engine for Hospital Images
+const uploadDirhospital = path.join(__dirname, 'upload', 'imagehospital');
+createDirIfNotExist(uploadDirhospital);
 
 const storagehospital = multer.diskStorage({
     destination: uploadDirhospital,
@@ -237,21 +253,17 @@ const storagehospital = multer.diskStorage({
 });
 
 const uploadhospital = multer({ storage: storagehospital });
+app.use('/api/v1/imagehospital', express.static(uploadDirhospital));
 
-app.use('/imagehospital', express.static(uploadDirhospital));
-
-// Upload Endpoint for second directory
 app.post('/api/v1/uploadhospital', uploadhospital.single('hospital'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ success: 0, message: 'File not uploaded' });
     }
-
     res.json({
         success: 1,
         image_url: `https://praveenproperties.com/api/v1/imagehospital/${req.file.filename}`,
     });
 });
-
 
 
 // Schema for Creating Products
