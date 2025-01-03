@@ -10,8 +10,6 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { motion } from 'framer-motion';
-
-
 import './ProductDetail.css';
 
 const ProductDetail = () => {

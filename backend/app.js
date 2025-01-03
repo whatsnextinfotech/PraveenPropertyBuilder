@@ -175,8 +175,8 @@ app.post('/api/v1/uploadschool', uploadschool.single('school'), (req, res) => {
     });
 });
 
-//college image
 
+//college image
 // Image Storage Engine for second upload endpoint
 const uploadDircollege = path.join(__dirname, 'upload', 'imagecollege');
 if (!fs.existsSync(uploadDircollege)) {
@@ -205,6 +205,8 @@ app.post('/api/v1/uploadcollege', uploadcollege.single('college'), (req, res) =>
         image_url: `https://praveenproperties.com/api/v1/imagecollege/${req.file.filename}`,
     });
 });
+
+
 
 //hospital images
 

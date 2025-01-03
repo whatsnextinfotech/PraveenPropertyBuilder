@@ -108,7 +108,7 @@ function App() {
                   <Route path='/admin/addproject' element={ <ProtectedRoute isAdmin={true}><Addproduct/></ProtectedRoute> } />
                   <Route path='/admin/listproduct' element={ <ProtectedRoute isAdmin={true}><Listproduct/></ProtectedRoute> } />
                   <Route path='/admin/user/:id' element={ <ProtectedRoute isAdmin={true}><UpdateUser/></ProtectedRoute> } />
-                  <Route path='/product/:id' element={<ProductDetail/>} />
+                  <Route path='/api/v1/product/:id' element={<ProductDetail/>} />
               
                 </Routes>
                 <WhatsAppButton />
