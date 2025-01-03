@@ -64,7 +64,7 @@ const ProductDetail = () => {
       <motion.div initial="hidden" animate="visible" variants={fadeIn}>
         <Row className="text-center my-4">
           <Col>
-            <h1 className="project-title">{product.name}</h1>
+            <h1 className="project-title"> {product.name} </h1>
           </Col>
         </Row>
       </motion.div>
