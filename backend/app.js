@@ -21,7 +21,7 @@ app.use(cors());
 const auth = require('./routes/auth');
 
 // Image Storage Engine
-const uploadDir = path.join(__dirname, 'upload', 'images');
+const uploadDir = './upload/images';
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -37,7 +37,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Serve images statically
-app.use('/api/v1/images', express.static(uploadDir));
+app.use('/images', express.static(uploadDir));
 
 // Upload Endpoint
 app.post('/api/v1/upload', upload.single('product'), (req, res) => {
@@ -55,7 +55,7 @@ app.post('/api/v1/upload', upload.single('product'), (req, res) => {
 
 //test
 // Image Storage Engine for second upload endpoint
-const uploadDir2 = path.join(__dirname, 'upload', 'image1');
+const uploadDir2 = './upload/image1';
 if (!fs.existsSync(uploadDir2)) {
     fs.mkdirSync(uploadDir2, { recursive: true });
 }
@@ -69,7 +69,7 @@ const storage2 = multer.diskStorage({
 
 const upload2 = multer({ storage: storage2 });
 
-app.use('/api/v1/image1', express.static(uploadDir2));
+app.use('/image1', express.static(uploadDir2));
 
 // Upload Endpoint for second directory
 app.post('/api/v1/upload1', upload2.single('product1'), (req, res) => {
@@ -86,7 +86,7 @@ app.post('/api/v1/upload1', upload2.single('product1'), (req, res) => {
 //image3
 
 // Image Storage Engine for second upload endpoint
-const uploadDir3 = path.join(__dirname, 'upload', 'image3');
+const uploadDir3 = './upload/image3';
 if (!fs.existsSync(uploadDir3)) {
     fs.mkdirSync(uploadDir3, { recursive: true });
 }
@@ -100,7 +100,7 @@ const storage3 = multer.diskStorage({
 
 const upload3 = multer({ storage: storage3 });
 
-app.use('/api/v1/image3', express.static(uploadDir3));
+app.use('/image3', express.static(uploadDir3));
 
 // Upload Endpoint for second directory
 app.post('/api/v1/upload3', upload3.single('product2'), (req, res) => {
@@ -117,7 +117,7 @@ app.post('/api/v1/upload3', upload3.single('product2'), (req, res) => {
 //images 4
 
 // Image Storage Engine for second upload endpoint
-const uploadDir4 = path.join(__dirname, 'upload', 'image4');
+const uploadDir4 = './upload/image4';
 if (!fs.existsSync(uploadDir4)) {
     fs.mkdirSync(uploadDir4, { recursive: true });
 }
@@ -131,7 +131,7 @@ const storage4 = multer.diskStorage({
 
 const upload4 = multer({ storage: storage4 });
 
-app.use('/api/v1/image4', express.static(uploadDir4));
+app.use('/image4', express.static(uploadDir4));
 
 // Upload Endpoint for second directory
 app.post('/api/v1/upload4', upload4.single('product3'), (req, res) => {
@@ -147,7 +147,7 @@ app.post('/api/v1/upload4', upload4.single('product3'), (req, res) => {
 
 //school image
 // Image Storage Engine for second upload endpoint
-const uploadDirschool = path.join(__dirname, 'upload', 'imageschool');
+const uploadDirschool = './upload/imageschool';
 if (!fs.existsSync(uploadDirschool)) {
     fs.mkdirSync(uploadDirschool, { recursive: true });
 }
@@ -161,7 +161,7 @@ const storageschool = multer.diskStorage({
 
 const uploadschool = multer({ storage: storageschool });
 
-app.use('/api/v1/imageschool', express.static(uploadDirschool));
+app.use('/imageschool', express.static(uploadDirschool));
 
 // Upload Endpoint for second directory
 app.post('/api/v1/uploadschool', uploadschool.single('school'), (req, res) => {
@@ -178,8 +178,7 @@ app.post('/api/v1/uploadschool', uploadschool.single('school'), (req, res) => {
 //college image
 
 // Image Storage Engine for second upload endpoint
-
-const uploadDircollege = path.join(__dirname, 'upload', 'imagecollege');
+const uploadDircollege = './upload/imagecollege';
 if (!fs.existsSync(uploadDircollege)) {
     fs.mkdirSync(uploadDircollege, { recursive: true });
 }
@@ -193,7 +192,7 @@ const storagecollege = multer.diskStorage({
 
 const uploadcollege = multer({ storage: storagecollege });
 
-app.use('/api/v1/imagecollege', express.static(uploadDircollege));
+app.use('/imagecollege', express.static(uploadDircollege));
 
 // Upload Endpoint for second directory
 app.post('/api/v1/uploadcollege', uploadcollege.single('college'), (req, res) => {
@@ -210,8 +209,7 @@ app.post('/api/v1/uploadcollege', uploadcollege.single('college'), (req, res) =>
 //hospital images
 
 // Image Storage Engine for second upload endpoint
-
-const uploadDirhospital = path.join(__dirname, 'upload', 'imagehospital');
+const uploadDirhospital = './upload/imagehospital';
 if (!fs.existsSync(uploadDirhospital)) {
     fs.mkdirSync(uploadDirhospital, { recursive: true });
 }
@@ -225,7 +223,7 @@ const storagehospital = multer.diskStorage({
 
 const uploadhospital = multer({ storage: storagehospital });
 
-app.use('/api/v1/imagehospital', express.static(uploadDirhospital));
+app.use('/imagehospital', express.static(uploadDirhospital));
 
 // Upload Endpoint for second directory
 app.post('/api/v1/uploadhospital', uploadhospital.single('hospital'), (req, res) => {
