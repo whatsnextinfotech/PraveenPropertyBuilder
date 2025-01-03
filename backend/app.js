@@ -21,7 +21,7 @@ app.use(cors());
 const auth = require('./routes/auth');
 
 // Image Storage Engine
-const uploadDir = './upload/images';
+const uploadDir = path.join(__dirname, 'upload', 'images');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -55,7 +55,7 @@ app.post('/api/v1/upload', upload.single('product'), (req, res) => {
 
 //test
 // Image Storage Engine for second upload endpoint
-const uploadDir2 = './upload/image1';
+const uploadDir2 = path.join(__dirname, 'upload', 'image1');
 if (!fs.existsSync(uploadDir2)) {
     fs.mkdirSync(uploadDir2, { recursive: true });
 }
@@ -86,7 +86,7 @@ app.post('/api/v1/upload1', upload2.single('product1'), (req, res) => {
 //image3
 
 // Image Storage Engine for second upload endpoint
-const uploadDir3 = './upload/image3';
+const uploadDir3 = path.join(__dirname, 'upload', 'image3');
 if (!fs.existsSync(uploadDir3)) {
     fs.mkdirSync(uploadDir3, { recursive: true });
 }
@@ -117,7 +117,7 @@ app.post('/api/v1/upload3', upload3.single('product2'), (req, res) => {
 //images 4
 
 // Image Storage Engine for second upload endpoint
-const uploadDir4 = './upload/image4';
+const uploadDir4 = path.join(__dirname, 'upload', 'image4');
 if (!fs.existsSync(uploadDir4)) {
     fs.mkdirSync(uploadDir4, { recursive: true });
 }
@@ -147,7 +147,7 @@ app.post('/api/v1/upload4', upload4.single('product3'), (req, res) => {
 
 //school image
 // Image Storage Engine for second upload endpoint
-const uploadDirschool = './upload/imageschool';
+const uploadDirschool = path.join(__dirname, 'upload', 'imageschool');
 if (!fs.existsSync(uploadDirschool)) {
     fs.mkdirSync(uploadDirschool, { recursive: true });
 }
@@ -178,7 +178,7 @@ app.post('/api/v1/uploadschool', uploadschool.single('school'), (req, res) => {
 //college image
 
 // Image Storage Engine for second upload endpoint
-const uploadDircollege = './upload/imagecollege';
+const uploadDircollege = path.join(__dirname, 'upload', 'imagecollege');
 if (!fs.existsSync(uploadDircollege)) {
     fs.mkdirSync(uploadDircollege, { recursive: true });
 }
@@ -209,7 +209,7 @@ app.post('/api/v1/uploadcollege', uploadcollege.single('college'), (req, res) =>
 //hospital images
 
 // Image Storage Engine for second upload endpoint
-const uploadDirhospital = './upload/imagehospital';
+const uploadDirhospital = path.join(__dirname, 'upload', 'imagehospital');
 if (!fs.existsSync(uploadDirhospital)) {
     fs.mkdirSync(uploadDirhospital, { recursive: true });
 }
