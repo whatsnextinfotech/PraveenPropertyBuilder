@@ -421,7 +421,7 @@ app.put('/api/v1/updateproduct/:id', async (req, res) => {
 });
 
 // Get Product by ID Endpoint
-app.get('/api/v1/product/:id', async (req, res, next) => {
+app.get('https://praveenproperties.com/api/v1/product/:id', async (req, res, next) => {
     const product = await Product.findById(req.params.id).populate('name');
 
     if (!product) {
