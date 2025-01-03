@@ -49,7 +49,7 @@ app.post('/api/v1/upload', upload.single('product'), (req, res) => {
 
     res.json({
         success: 1,
-        image_url: `http://localhost:${process.env.PORT}/images/${req.file.filename}`,
+        image_url: `https://praveenproperties.com/api/v1/images/${req.file.filename}`,
     });
 });
 
@@ -79,7 +79,7 @@ app.post('/api/v1/upload1', upload2.single('product1'), (req, res) => {
 
     res.json({
         success: 1,
-        image_url: `http://localhost:${process.env.PORT}/image1/${req.file.filename}`,
+        image_url: `https://praveenproperties.com/api/v1/image1/${req.file.filename}`,
     });
 });
 
@@ -110,7 +110,7 @@ app.post('/api/v1/upload3', upload3.single('product2'), (req, res) => {
 
     res.json({
         success: 1,
-        image_url: `http://localhost:${process.env.PORT}/image3/${req.file.filename}`,
+        image_url: `https://praveenproperties.com/api/v1/image3/${req.file.filename}`,
     });
 });
 
@@ -141,7 +141,7 @@ app.post('/upload4', upload4.single('product3'), (req, res) => {
 
     res.json({
         success: 1,
-        image_url: `http://localhost:${process.env.PORT}/image4/${req.file.filename}`,
+        image_url: `https://praveenproperties.com/api/v1/image4/${req.file.filename}`,
     });
 });
 
@@ -171,7 +171,7 @@ app.post('/api/v1/uploadschool', uploadschool.single('school'), (req, res) => {
 
     res.json({
         success: 1,
-        image_url: `http://localhost:${process.env.PORT}/imageschool/${req.file.filename}`,
+        image_url: `https://praveenproperties.com/api/v1/imageschool/${req.file.filename}`,
     });
 });
 
@@ -202,7 +202,7 @@ app.post('/api/v1/uploadcollege', uploadcollege.single('college'), (req, res) =>
 
     res.json({
         success: 1,
-        image_url: `http://localhost:${process.env.PORT}/imagecollege/${req.file.filename}`,
+        image_url: `https://praveenproperties.com/api/v1/imagecollege/${req.file.filename}`,
     });
 });
 
@@ -233,7 +233,7 @@ app.post('/api/v1/uploadhospital', uploadhospital.single('hospital'), (req, res)
 
     res.json({
         success: 1,
-        image_url: `http://localhost:${process.env.PORT}/imagehospital/${req.file.filename}`,
+        image_url: `https://praveenproperties.com/api/v1/imagehospital/${req.file.filename}`,
     });
 });
 
