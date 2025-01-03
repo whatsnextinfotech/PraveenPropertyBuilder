@@ -37,7 +37,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Serve images statically
-app.use('/images', express.static(uploadDir));
+app.use('/api/v1/images', express.static(uploadDir));
 
 // Upload Endpoint
 app.post('/api/v1/upload', upload.single('product'), (req, res) => {
@@ -69,7 +69,7 @@ const storage2 = multer.diskStorage({
 
 const upload2 = multer({ storage: storage2 });
 
-app.use('/image1', express.static(uploadDir2));
+app.use('/api/v1/image1', express.static(uploadDir2));
 
 // Upload Endpoint for second directory
 app.post('/api/v1/upload1', upload2.single('product1'), (req, res) => {
@@ -100,7 +100,7 @@ const storage3 = multer.diskStorage({
 
 const upload3 = multer({ storage: storage3 });
 
-app.use('/image3', express.static(uploadDir3));
+app.use('/api/v1/image3', express.static(uploadDir3));
 
 // Upload Endpoint for second directory
 app.post('/api/v1/upload3', upload3.single('product2'), (req, res) => {
@@ -131,7 +131,7 @@ const storage4 = multer.diskStorage({
 
 const upload4 = multer({ storage: storage4 });
 
-app.use('/image4', express.static(uploadDir4));
+app.use('/api/v1/image4', express.static(uploadDir4));
 
 // Upload Endpoint for second directory
 app.post('/api/v1/upload4', upload4.single('product3'), (req, res) => {
@@ -161,7 +161,7 @@ const storageschool = multer.diskStorage({
 
 const uploadschool = multer({ storage: storageschool });
 
-app.use('/imageschool', express.static(uploadDirschool));
+app.use('/api/v1/imageschool', express.static(uploadDirschool));
 
 // Upload Endpoint for second directory
 app.post('/api/v1/uploadschool', uploadschool.single('school'), (req, res) => {
@@ -192,7 +192,7 @@ const storagecollege = multer.diskStorage({
 
 const uploadcollege = multer({ storage: storagecollege });
 
-app.use('/imagecollege', express.static(uploadDircollege));
+app.use('/api/v1/imagecollege', express.static(uploadDircollege));
 
 // Upload Endpoint for second directory
 app.post('/api/v1/uploadcollege', uploadcollege.single('college'), (req, res) => {
@@ -223,7 +223,7 @@ const storagehospital = multer.diskStorage({
 
 const uploadhospital = multer({ storage: storagehospital });
 
-app.use('/imagehospital', express.static(uploadDirhospital));
+app.use('/api/v1/imagehospital', express.static(uploadDirhospital));
 
 // Upload Endpoint for second directory
 app.post('/api/v1/uploadhospital', uploadhospital.single('hospital'), (req, res) => {
