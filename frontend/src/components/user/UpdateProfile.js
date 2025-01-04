@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";  // Ensure proper import
 import { updateProfile, clearAuthError } from "../../actions/userActions";
 import { clearUpdateProfile } from "../../slices/authSlice";
+import 'react-toastify/dist/ReactToastify.css';  // Import Toastify CSS
+
+toast.configure();  // Initialize Toastify
 
 export default function UpdateProfile() {
     const { error, user, isUpdated } = useSelector(state => state.authState);
@@ -42,18 +45,16 @@ export default function UpdateProfile() {
         }
 
         if (isUpdated) {
-            toast("Profile updated successfully", {
-                type: "success",
-                position: "bottom-center",  // Use string value for position
+            toast.success("Profile updated successfully", {
+                position: toast.POSITION.BOTTOM_CENTER,  // Use predefined position constant
                 onOpen: () => dispatch(clearUpdateProfile()),
             });
             return;
         }
 
         if (error) {
-            toast(error, {
-                position: "bottom-center",  // Use string value for position
-                type: "error",
+            toast.error(error, {
+                position: toast.POSITION.BOTTOM_CENTER,  // Use predefined position constant
                 onOpen: () => { dispatch(clearAuthError()) },
             });
             return;

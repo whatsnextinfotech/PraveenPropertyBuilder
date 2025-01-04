@@ -31,7 +31,7 @@ export default function UpdateUser () {
         if(isUserUpdated) {
             toast('User Updated Succesfully!',{
                 type: 'success',
-                position: "bottom-center",
+                position: toast.POSITION.BOTTOM_CENTER,
                 onOpen: () => dispatch(clearUserUpdated())
             })
             return;
@@ -39,7 +39,7 @@ export default function UpdateUser () {
 
         if(error)  {
             toast(error, {
-                position: "bottom-center",
+                position: toast.POSITION.BOTTOM_CENTER,
                 type: 'error',
                 onOpen: ()=> { dispatch(clearError()) }
             })
