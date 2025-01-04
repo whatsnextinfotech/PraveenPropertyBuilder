@@ -218,8 +218,6 @@ if (hospitalimage) {
   }
 }
 
-      
-
       // Send product details to the backend
       const response = await fetch('https://praveenproperties.com/api/v1/addproduct', {
         method: 'POST',
@@ -299,7 +297,7 @@ if (hospitalimage) {
         </div>
 <div className='images'>
         <div className="addproduct-itemfield">
-          <p>Upload Thumbnail Image</p>
+          <p>Thumbnail Image (max: 1 MB)</p>
           <label htmlFor="file-input">
             {image ? (
               <img
@@ -321,7 +319,7 @@ if (hospitalimage) {
         </div>
 
         <div className="addproduct-itemfield">
-          <p>Upload Thumbnail Image1</p>
+          <p>Upload Image1 (max: 1 MB)</p>
           <label htmlFor="file-input1">
             {image1 ? (
               <img
@@ -343,7 +341,7 @@ if (hospitalimage) {
         </div>
 
         <div className="addproduct-itemfield">
-          <p>Upload Thumbnail Image2</p>
+          <p>Upload Image2 (max: 1 MB)</p>
           <label htmlFor="file-input2">
             {image2 ? (
               <img
@@ -365,7 +363,7 @@ if (hospitalimage) {
         </div>
 
         <div className="addproduct-itemfield">
-          <p>Upload Thumbnail Image3</p>
+          <p>Upload Image3 (max: 1 MB)</p>
           <label htmlFor="file-input3">
             {image3 ? (
               <img
@@ -477,7 +475,7 @@ if (hospitalimage) {
         </div>
 
         <div className="addproduct-itemfield">
-          <p>Hospital Image</p>
+          <p>Hospital Image </p>
           <label htmlFor="file-inputhospital">
             {hospitalimage ? (
               <img

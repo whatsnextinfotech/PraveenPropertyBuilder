@@ -97,7 +97,8 @@ const Projects = () => {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
-}}>
+}
+}>
   {/* Split heading into individual letters for staggered animation */}
   <h2 className='heading'>
     {
@@ -142,6 +143,113 @@ const Projects = () => {
           transform: translateX(0); // Slide in to original position
         }
       }
+
+      @media (max-width: 800px){
+   .heading {
+    font-size: 4rem;
+    color: #fff;
+    position: relative;
+    padding: 10px 20px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    overflow:hidden;
+    }
+      @keyframes borderMove {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+      }
+      
+      @keyframes letterIn {
+        0% {
+          opacity: 0;
+          transform: translateX(-20px); // Start off to the left
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0); // Slide in to original position
+        }
+      }
+}
+
+  @media (max-width: 500px){
+   .heading {
+    font-size: 3.5rem;
+    color: #fff;
+    position: relative;
+    padding: 10px 20px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    overflow:hidden;
+    }
+      @keyframes borderMove {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+      }
+      
+      @keyframes letterIn {
+        0% {
+          opacity: 0;
+          transform: translateX(-20px); // Start off to the left
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0); // Slide in to original position
+        }
+      }
+}
+        @media (max-width: 400px){
+   .heading {
+    font-size: 3rem;
+    color: #fff;
+    position: relative;
+    padding: 10px 20px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    overflow:hidden;
+    }
+      @keyframes borderMove {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+      }
+      
+      @keyframes letterIn {
+        0% {
+          opacity: 0;
+          transform: translateX(-20px); // Start off to the left
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0); // Slide in to original position
+        }
+      }
+}
+            @media (max-width: 330px){
+   .heading {
+    font-size: 2.3rem;
+    color: #fff;
+    position: relative;
+    padding: 10px 20px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    overflow:hidden;
+    }
+      @keyframes borderMove {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+      }
+      
+      @keyframes letterIn {
+        0% {
+          opacity: 0;
+          transform: translateX(-20px); // Start off to the left
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0); // Slide in to original position
+        }
+      }
+}
+
     `}
   </style>
 </div>

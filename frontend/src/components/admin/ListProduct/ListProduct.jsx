@@ -399,7 +399,7 @@ if (image2) {
                   onChange={(e) => setProductDetails({ ...productDetails, location: e.target.value })}
                   placeholder="Location"
                 />
-                <label htmlFor="city" className="addproduct-itemfield">City</label>
+                <label htmlFor="city" className="addproduct-itemfield">Address</label>
                 <input
                   id="city"
                   type="text"

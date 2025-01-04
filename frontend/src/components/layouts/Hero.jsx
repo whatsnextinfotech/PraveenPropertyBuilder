@@ -257,7 +257,13 @@ const Hero = () => {
           white-space: nowrap;
           border: 0;
         }
-
+@media (max-width: 576px){
+  .form-group {
+          flex: 1 1 150px; /* Allow flexibility with a base size */
+          min-width: 120px; /* Minimum width for better usability */
+           padding: 35px 0px;
+        }
+}
         /* Responsive Styles */
         @media (min-width: 576px) {
           .hero-title {

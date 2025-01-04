@@ -11,6 +11,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { motion } from 'framer-motion';
 import './ProductDetail.css';
+import { GiFamilyHouse } from "react-icons/gi";
 
 const ProductDetail = () => {
   const { loading, product } = useSelector(state => state.productState);
@@ -173,7 +174,7 @@ const ProductDetail = () => {
               whileInView="visible"
               variants={imageAnimation}
             >
-              <img src={product.schoolimage} alt="School" className="img-fluid facility-image" />
+              <img src={product.schoolimage}  className="img-fluid facility-image" />
             </motion.div>
             <motion.div
               className="col-md-5"
@@ -215,7 +216,7 @@ const ProductDetail = () => {
               whileInView="visible"
               variants={textAnimation1}
             >
-              <img src={product.collegeimage} alt="College" className="img-fluid facility-image" />
+              <img src={product.collegeimage}  className="img-fluid facility-image" />
             </motion.div>
           </div>
         </div>
@@ -231,7 +232,7 @@ const ProductDetail = () => {
               whileInView="visible"
               variants={imageAnimation}
             >
-              <img src={product.hospitalimage} alt="Hospital" className="img-fluid facility-image" />
+              <img src={product.hospitalimage}  className="img-fluid facility-image" />
             </motion.div>
             <motion.div
               className="col-md-5"
