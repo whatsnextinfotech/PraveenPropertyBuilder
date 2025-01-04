@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getUser, updateUser } from "../../actions/userActions";
 import { clearError, clearUserUpdated } from "../../slices/userSlice";
 import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
+
 
 export default function UpdateUser () {
     const [name, setName] = useState("");
@@ -31,7 +33,7 @@ export default function UpdateUser () {
         if(isUserUpdated) {
             toast('User Updated Succesfully!',{
                 type: 'success',
-                position: toast.POSITION.BOTTOM_CENTER,
+                position: "bottom-center",
                 onOpen: () => dispatch(clearUserUpdated())
             })
             return;
@@ -39,7 +41,7 @@ export default function UpdateUser () {
 
         if(error)  {
             toast(error, {
-                position: toast.POSITION.BOTTOM_CENTER,
+                position: "bottom-center",
                 type: 'error',
                 onOpen: ()=> { dispatch(clearError()) }
             })
