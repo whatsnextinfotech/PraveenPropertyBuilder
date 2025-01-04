@@ -297,7 +297,7 @@ if (hospitalimage) {
         </div>
 <div className='images'>
         <div className="addproduct-itemfield">
-          <p>Thumbnail Image (max: 1 MB)</p>
+          <p>Thumbnail Image(max: 1 MB)</p>
           <label htmlFor="file-input">
             {image ? (
               <img

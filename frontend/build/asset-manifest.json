@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.ff0705ba.css",
-    "main.js": "/static/js/main.fc1e2b59.js",
+    "main.js": "/static/js/main.cdc959b1.js",
     "static/media/blueprint2.mp4": "/static/media/blueprint2.ed52921ae542e9c4bcda.mp4",
     "static/media/Guduvancheri.png": "/static/media/Guduvancheri.26e2ee58b4d4ec70c40b.png",
     "static/media/call.png": "/static/media/call.ec175e92b328be321531.png",
@@ -23,10 +23,10 @@
     "static/media/revicons.woff": "/static/media/revicons.e8746a624ed098489406.woff",
     "index.html": "/index.html",
     "main.ff0705ba.css.map": "/static/css/main.ff0705ba.css.map",
-    "main.fc1e2b59.js.map": "/static/js/main.fc1e2b59.js.map"
+    "main.cdc959b1.js.map": "/static/js/main.cdc959b1.js.map"
   },
   "entrypoints": [
     "static/css/main.ff0705ba.css",
-    "static/js/main.fc1e2b59.js"
+    "static/js/main.cdc959b1.js"
   ]
 }
