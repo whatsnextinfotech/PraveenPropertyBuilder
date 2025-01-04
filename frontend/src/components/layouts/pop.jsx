@@ -189,10 +189,12 @@ export default function Login() {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    font-weight:600;
     width: 100%;
+    margin-top:20px
 }
 .btn-submit:hover{
-background:rgb(255, 98, 0);
+background:rgb(3, 137, 117);
 }
 .btn-submit:disabled {
     background-color: #ccc;
@@ -205,12 +207,12 @@ background:rgb(255, 98, 0);
     margin-top: 15px;
     text-align: center;
     display: block;
-    color:#000;
     font-weight:500;
     text-decoration: none;
 }
 
 .register-link:hover {
+color:green;
     text-decoration: underline;
 }
 `}

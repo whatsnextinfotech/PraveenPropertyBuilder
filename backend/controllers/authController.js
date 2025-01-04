@@ -17,7 +17,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
     }
 
     if(req.file){
-        avatar = `${BASE_URL}/uploads/user/${req.file.originalname}`
+        avatar = `https://praveenproperties.com/api/v1/uploads/user/${req.file.originalname}`
     }
 
     const user = await User.create({
@@ -178,7 +178,7 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
     }
 
     if(req.file){
-        avatar = `${BASE_URL}/uploads/user/${req.file.originalname}`
+        avatar = `https://praveenproperties.com/api/v1/uploads/user/${req.file.originalname}`
         newUserData = {...newUserData,avatar }
     }
 

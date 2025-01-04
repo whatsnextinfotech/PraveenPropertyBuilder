@@ -173,7 +173,7 @@ const Projects = () => {
 
   @media (max-width: 500px){
    .heading {
-    font-size: 3.5rem;
+    font-size: 2rem;
     color: #fff;
     position: relative;
     padding: 10px 20px;
@@ -199,7 +199,7 @@ const Projects = () => {
 }
         @media (max-width: 400px){
    .heading {
-    font-size: 3rem;
+    font-size: 1.5rem;
     color: #fff;
     position: relative;
     padding: 10px 20px;
@@ -225,7 +225,7 @@ const Projects = () => {
 }
             @media (max-width: 330px){
    .heading {
-    font-size: 2.3rem;
+    font-size: 1rem;
     color: #fff;
     position: relative;
     padding: 10px 20px;
