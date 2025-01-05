@@ -240,6 +240,61 @@ app.post('/api/v1/uploadhospital', uploadhospital.single('hospital'), (req, res)
 });
 
 
+//pdf
+const uploadDirpdf = path.join(__dirname, 'upload', 'pdf');
+
+// Ensure the directory exists
+if (!fs.existsSync(uploadDirpdf)) {
+    fs.mkdirSync(uploadDirpdf, { recursive: true });
+}
+
+// Multer storage configuration for PDF files
+const storagepdf = multer.diskStorage({
+    destination: uploadDirpdf,
+    filename: (req, file, cb) => {
+        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+    },
+});
+
+// Multer upload instance with PDF validation and size limit
+const uploadpdf = multer({
+    storage: storagepdf,
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype === 'application/pdf') {
+            cb(null, true);
+        } else {
+            cb(new Error('Only PDF files are allowed!'), false);
+        }
+    },
+    limits: { fileSize: 20 * 1024 * 1024 }, // 20 MB limit
+});
+
+// Serve static files for uploaded PDFs
+app.use('/api/v1/pdf', express.static(uploadDirpdf));
+
+// Upload endpoint for PDF files
+app.post('/api/v1/uploadpdf', (req, res, next) => {
+    uploadpdf.single('pdf')(req, res, (err) => {
+        if (err) {
+            if (err.code === 'LIMIT_FILE_SIZE') {
+                return res.status(400).json({
+                    success: 0,
+                    message: 'File size should not exceed 20 MB',
+                });
+            }
+            return res.status(400).json({ success: 0, message: err.message });
+        }
+        if (!req.file) {
+            return res.status(400).json({ success: 0, message: 'File not uploaded' });
+        }
+
+        res.json({
+            success: 1,
+            pdf_url: `https://praveenproperties.com/api/v1/pdf/${req.file.filename}`,
+        });
+    });
+});
+
 
 // Schema for Creating Products
 const Product = mongoose.model("Product", {
@@ -319,13 +374,15 @@ const Product = mongoose.model("Product", {
         type: String,
         require: true,
     },
+    pdf:{
+        type: String,
+        require: true,
+    },
     date: {
         type: Date,
         default: Date.now,
     }
 });
-
-
 
 
 
@@ -364,6 +421,7 @@ app.post('/api/v1/addproduct', async (req, res) => {
         school_list: req.body.school_list,
         college_list: req.body.college_list,
         hospital_list: req.body.hospital_list,
+        pdf:req.body.pdf
     });
     console.log(product);
     await product.save();
@@ -392,7 +450,8 @@ app.put('/api/v1/updateproduct/:id', async (req, res) => {
                 map: req.body.map,
                 school_list: req.body.school_list,
                 college_list: req.body.college_list,
-                hospital_list: req.body.hospital_list
+                hospital_list: req.body.hospital_list,
+                pdf:req.body.pdf
             },
             { new: true } // Returns the updated product
         );

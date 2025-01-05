@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from '../../actions/productActions';
 import { useParams } from 'react-router-dom';
@@ -11,7 +11,6 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { motion } from 'framer-motion';
 import './ProductDetail.css';
-import { GiFamilyHouse } from "react-icons/gi";
 
 const ProductDetail = () => {
   const { loading, product } = useSelector(state => state.productState);
@@ -27,23 +26,8 @@ const ProductDetail = () => {
     visible: { opacity: 1, transition: { duration: 0.5 } },
   };
 
-  const textAnimation = {
-    hidden: { x: -200, opacity: 0 },
-    visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
-  };
-
   const imageAnimation = {
     hidden: { x: 200, opacity: 0 },
-    visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
-  };
-
-  const textAnimation1 = {
-    hidden: { x: 200, opacity: 0 },
-    visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
-  };
-
-  const imageAnimation1 = {
-    hidden: { x: -200, opacity: 0 },
     visible: { x: 0, opacity: 1, transition: { duration: 0.8 } },
   };
 
@@ -60,17 +44,43 @@ const ProductDetail = () => {
     { id: 3, image: product?.image3 },
   ];
 
+
+
+const handleDownload = () => {
+  if (product.pdf) {
+    const link = document.createElement('a');
+    link.href = product.pdf;  // URL to the PDF file
+    link.download = 'brochure.pdf';  // Optional: specify the filename for the download
+    link.click();
+  } else {
+    alert('No PDF file found!');
+  }
+};
+
+
+  const Specification = ({ icons }) => (
+    <Row className="text-center mb-2 rowcontent">
+      {icons.map(({ Icon, label }, index) => (
+        <Col key={index} xs={6} md={2} className="d-flex flex-column align-items-center">
+          <Icon size={30} />
+          <p>{label}</p>
+        </Col>
+      ))}
+    </Row>
+  );
+
   return (
     <Container fluid>
+      {/* Title Section */}
       <motion.div initial="hidden" animate="visible" variants={fadeIn}>
         <Row className="text-center my-4">
           <Col>
-            <h1 className="project-title"> {product.name} </h1>
+            <h1 className="project-title">{product.name}</h1>
           </Col>
         </Row>
       </motion.div>
 
-
+      {/* Image Carousel */}
       <div className="carousel-wrapper">
         <Carousel
           responsive={responsive}
@@ -89,8 +99,7 @@ const ProductDetail = () => {
         </Carousel>
       </div>
 
-      
-
+      {/* Price Section */}
       <motion.div initial="hidden" animate="visible" variants={fadeIn}>
         <Row className="text-center mb-4">
           <Col>
@@ -100,6 +109,16 @@ const ProductDetail = () => {
         </Row>
       </motion.div>
 
+      {/* PDF Download Button */}
+      <motion.div initial="hidden" animate="visible" variants={fadeIn}>
+        <Row className="text-center mb-4 pdf">
+          <Col>
+            <button onClick={handleDownload}>Download Broucher</button>
+          </Col>
+        </Row>
+      </motion.div>
+
+      {/* Location Map Section */}
       <Row className="justify-content-center mb-4">
         <Col md={12}>
           <Card className="text-center">
@@ -120,6 +139,7 @@ const ProductDetail = () => {
         </Col>
       </Row>
 
+      {/* Location */}
       <motion.div initial="hidden" animate="visible" variants={fadeIn}>
         <Row className="text-center mb-4">
           <Col>
@@ -128,39 +148,21 @@ const ProductDetail = () => {
         </Row>
       </motion.div>
 
+      {/* Specification Icons */}
       <Container className="d-flex justify-content-center specification">
         <h3>Specification:</h3>
         <motion.div initial="hidden" animate="visible" variants={fadeIn}>
-          <Row className="text-center mb-2 rowcontent">
-            <Col xs={6} md={2} className="d-flex flex-column align-items-center">
-              <FaRoad size={30} />
-              <p>Road</p>
-            </Col>
-            <Col xs={6} md={2} className="d-flex flex-column align-items-center">
-              <GiBrickWall size={30} />
-              <p>Boundary</p>
-            </Col>
-            <Col xs={6} md={2} className="d-flex flex-column align-items-center">
-              <GiDoubleStreetLights size={30} />
-              <p>Street Lights</p>
-            </Col>
-            <Col xs={6} md={2} className="d-flex flex-column align-items-center mx-2">
-              <FaPlug size={30} />
-              <p>EB</p>
-            </Col>
-            <Col xs={6} md={2} className="d-flex flex-column align-items-center mx-2">
-              <MdHomeWork size={30} />
-              <p>Residential</p>
-            </Col>
-            <Col xs={6} md={2} className="d-flex flex-column align-items-center mx-2">
-              <FaWater size={30} />
-              <p>Ground water</p>
-            </Col>
-            <Col xs={6} md={2} className="d-flex flex-column align-items-center mx-2">
-              <GiCctvCamera size={30} />
-              <p>CCTV</p>
-            </Col>
-          </Row>
+          <Specification
+            icons={[
+              { Icon: FaRoad, label: 'Road' },
+              { Icon: GiBrickWall, label: 'Boundary' },
+              { Icon: GiDoubleStreetLights, label: 'Street Lights' },
+              { Icon: FaPlug, label: 'EB' },
+              { Icon: MdHomeWork, label: 'Residential' },
+              { Icon: FaWater, label: 'Ground water' },
+              { Icon: GiCctvCamera, label: 'CCTV' },
+            ]}
+          />
         </motion.div>
       </Container>
 
@@ -168,23 +170,13 @@ const ProductDetail = () => {
       <div className="Specification" style={{ backgroundColor: '#FF6600' }}>
         <div className="container mt-2">
           <div className="row align-items-center">
-            <motion.div
-              className="col-md-7 text-center mb-1"
-              initial="hidden"
-              whileInView="visible"
-              variants={imageAnimation}
-            >
-              <img src={product.schoolimage}  className="img-fluid facility-image" />
+            <motion.div className="col-md-7 text-center mb-1" initial="hidden" whileInView="visible" variants={imageAnimation}>
+              <img src={product.schoolimage} className="img-fluid facility-image" />
             </motion.div>
-            <motion.div
-              className="col-md-5"
-              initial="hidden"
-              whileInView="visible"
-              variants={textAnimation}
-            >
+            <motion.div className="col-md-5" initial="hidden" whileInView="visible" variants={fadeIn}>
               <h2>School:</h2>
               <ul className="product-distribution-list">
-                {product.school_list && product.school_list.split('|').filter(point => point.trim() !== '').map((point, index) => (
+                {product.school_list && product.school_list.split('|').filter(point => point.trim()).map((point, index) => (
                   <li key={index}>{point.trim()}</li>
                 ))}
               </ul>
@@ -197,26 +189,16 @@ const ProductDetail = () => {
       <div className="Specification">
         <div className="container mt-2">
           <div className="row align-items-center">
-            <motion.div
-              className="col-md-5"
-              initial="hidden"
-              whileInView="visible"
-              variants={imageAnimation1}
-            >
+            <motion.div className="col-md-5" initial="hidden" whileInView="visible" variants={fadeIn}>
               <h2>College:</h2>
               <ul className="product-distribution-list">
-                {product.college_list && product.college_list.split('|').filter(point => point.trim() !== '').map((point, index) => (
+                {product.college_list && product.college_list.split('|').filter(point => point.trim()).map((point, index) => (
                   <li key={index}>{point.trim()}</li>
                 ))}
               </ul>
             </motion.div>
-            <motion.div
-              className="col-md-7 text-center mb-1"
-              initial="hidden"
-              whileInView="visible"
-              variants={textAnimation1}
-            >
-              <img src={product.collegeimage}  className="img-fluid facility-image" />
+            <motion.div className="col-md-7 text-center mb-1" initial="hidden" whileInView="visible" variants={imageAnimation}>
+              <img src={product.collegeimage} className="img-fluid facility-image" />
             </motion.div>
           </div>
         </div>
@@ -226,23 +208,13 @@ const ProductDetail = () => {
       <div className="Specification" style={{ backgroundColor: '#FF6600' }}>
         <div className="container mt-2">
           <div className="row align-items-center">
-            <motion.div
-              className="col-md-7 text-center mb-1"
-              initial="hidden"
-              whileInView="visible"
-              variants={imageAnimation}
-            >
-              <img src={product.hospitalimage}  className="img-fluid facility-image" />
+            <motion.div className="col-md-7 text-center mb-1" initial="hidden" whileInView="visible" variants={imageAnimation}>
+              <img src={product.hospitalimage} className="img-fluid facility-image" />
             </motion.div>
-            <motion.div
-              className="col-md-5"
-              initial="hidden"
-              whileInView="visible"
-              variants={textAnimation}
-            >
+            <motion.div className="col-md-5" initial="hidden" whileInView="visible" variants={fadeIn}>
               <h2>Hospital:</h2>
               <ul className="product-distribution-list">
-                {product.hospital_list && product.hospital_list.split('|').filter(point => point.trim() !== '').map((point, index) => (
+                {product.hospital_list && product.hospital_list.split('|').filter(point => point.trim()).map((point, index) => (
                   <li key={index}>{point.trim()}</li>
                 ))}
               </ul>

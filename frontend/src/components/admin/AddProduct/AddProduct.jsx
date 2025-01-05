@@ -11,6 +11,7 @@ const AddProduct = () => {
   const [schoolimage, setschoolimage] = useState(null);
   const [collegeimage, setcollegeimage] = useState(null);
   const [hospitalimage, sethospitalimage] = useState(null);
+  const [pdf, setPdf] = useState(null);
   const [productDetails, setProductDetails] = useState({
     name: "",
     location: "",
@@ -30,6 +31,7 @@ const AddProduct = () => {
     school_list: "",
     college_list: "",
     hospital_list: "",
+    pdf:"",
   });
 
   //image handlers
@@ -59,8 +61,8 @@ const AddProduct = () => {
     sethospitalimage(e.target.files[0]); 
   };
 
+  const pdfHandler = (e) => { setPdf(e.target.files[0]); };
   
-
   const changeHandler = (e) => {
     setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
   };
@@ -218,6 +220,30 @@ if (hospitalimage) {
   }
 }
 
+if (pdf) {
+  const formData = new FormData();
+  formData.append('pdf', pdf);
+  try {
+    const response = await fetch('https://praveenproperties.com/api/v1/uploadpdf', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      console.error('Failed to upload PDF:', response.status);
+      return;
+    }
+
+    const data = await response.json();
+    if (data.success) {
+      product.pdf = data.pdf_url;
+    } else {
+      console.error('Failed to upload PDF:', data.message);
+    }
+  } catch (error) {
+    console.error('Error uploading PDF:', error);
+  }
+}
       // Send product details to the backend
       const response = await fetch('https://praveenproperties.com/api/v1/addproduct', {
         method: 'POST',
@@ -281,7 +307,7 @@ if (hospitalimage) {
             />
           </div>
         </div>
-
+<div className='broucher'>
         <div className="addproduct-itemfield">
           <p>Category</p>
           <select
@@ -295,6 +321,13 @@ if (hospitalimage) {
             <option value="Upcoming Project">Upcoming Project</option>
           </select>
         </div>
+
+        <div className="addproduct-itemfield">
+          <p>Broucher Upload</p>
+          <input onChange={pdfHandler} type="file" name="pdf" accept="application/pdf" />
+        </div>
+        </div> 
+
 <div className='images'>
         <div className="addproduct-itemfield">
           <p>Thumbnail Image(max: 1 MB)</p>
@@ -417,6 +450,7 @@ if (hospitalimage) {
             placeholder="Type here"
           />
         </div>
+        
         <div className="addproduct-itemfield">
           <p>Map URL</p>
           <input

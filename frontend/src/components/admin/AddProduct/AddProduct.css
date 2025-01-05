@@ -70,6 +70,9 @@
     display: flex;
     gap:5px;
 }
+.broucher{
+    display: flex;
+}
 .addproduct-itemfield-list{
     display: flex;
     gap:5px;
@@ -171,4 +174,9 @@
         font-size: 12px;
         font-weight: 500;
     }
+    .broucher{
+        display: flex;
+        flex-direction: column;
+    }
+ 
 }

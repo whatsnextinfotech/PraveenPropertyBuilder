@@ -172,14 +172,16 @@
     outline: none;
     color: #7b7b7b;
   }
-  
+  .mapurl{
+    position: relative;
+    margin-left: 200px;
+  }
   .mapurl input{
     box-sizing: border-box;
-    width: 100%;
     height: 40px;
     border-radius: 4px;
     margin-left: -10px;
-    padding-left: 15px;
+    padding-left: -15px;
     border:1px solid #c3c3c3;
     outline: none;
     color: #7b7b7b;
@@ -244,6 +246,27 @@
 .update-btn:hover{
     
     background: rgba(16, 238, 5, 0.744);
+}
+.pdf{
+    display: flex;
+  justify-content:space-between;
+
+  margin: 0px 20px;
+    
+}
+.pdfurl p{
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+}
+.pdfurl {
+    display: flex;
+    position: absolute;
+    padding: 0px 20px;
+
+}
+.pdfurl input{
+ width: 300px;
 }
 @media(max-width:1440px){
     .list-product{
@@ -328,6 +351,13 @@
         grid-template-columns: repeat(4, 1fr);
         gap: 5px;
       }
+      .pdf{
+        gap:20px;
+      }
+      .pdfurl input{
+       
+        width: 120px;
+       }
 }
 @media(max-width:350px){
     .list-product h1{
@@ -364,6 +394,7 @@
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         overflow-y: auto;
       }
+      
 .modal-content label{
         font-size: 10px;
     }
@@ -372,4 +403,11 @@
         grid-template-columns: repeat(4, 1fr);
         gap: 5px;
       }
+      .pdf{
+        gap:20px;
+      }
+      .pdfurl input{
+       
+        width: 120px;
+       }
 }

@@ -14,6 +14,7 @@ const ListProduct = () => {
   const [schoolimage, setschoolimage] = useState(null);
   const [collegeimage, setcollegeimage] = useState(null);
   const [hospitalimage, sethospitalimage] = useState(null);
+    const [pdf, setPdf] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
   const fetchInfo = async () => {
@@ -100,6 +101,7 @@ const ListProduct = () => {
   const handleImageChangehospital = (e) => {
     sethospitalimage(e.target.files[0]); 
   };
+  const pdfHandler = (e) => { setPdf(e.target.files[0]); };
 
 
   const updateProduct = async () => {
@@ -264,7 +266,31 @@ if (image2) {
     }
     }
 
+//pdf
+if (pdf) {
+  const formData = new FormData();
+  formData.append('pdf', pdf);
+  try {
+    const response = await fetch('https://praveenproperties.com/api/v1/uploadpdf', {
+      method: 'POST',
+      body: formData,
+    });
 
+    if (!response.ok) {
+      console.error('Failed to upload PDF:', response.status);
+      return;
+    }
+
+    const data = await response.json();
+    if (data.success) {
+      product.pdf = data.pdf_url;
+    } else {
+      console.error('Failed to upload PDF:', data.message);
+    }
+  } catch (error) {
+    console.error('Error uploading PDF:', error);
+  }
+}
 
     // Send a PUT request to update the product
     try {
@@ -309,6 +335,7 @@ if (image2) {
           <p className='imagelist'>School Image</p>
           <p className='imagelist'>College Image</p>
           <p className='imagelist'>Hospital Image</p>
+          <p className='imagelist'>pdf</p>
           <p>School List</p>
           <p>College List</p>
           <p>Hospital List</p>
@@ -333,6 +360,8 @@ if (image2) {
               <p>{product.school_list}</p>
               <p>{product.college_list}</p>
               <p>{product.hospital_list}</p>
+              <p className='imagelist'>{product.pdf}</p>
+
               <MdDeleteForever
                 onClick={() => removeProduct(product._id)}
                 className="listproduct-remove-icon"
@@ -444,6 +473,11 @@ if (image2) {
                   placeholder="Hospital List"
                 />
               </div>
+              <div className='pdf'>
+              <div className="addproduct-itemfield pdfurl">
+          <p>Broucher Upload</p>
+          <input onChange={pdfHandler} type="file" name="pdf" accept="application/pdf" />
+        </div>
               <div className="mapurl">
                 <label htmlFor="mapUrl" className="addproduct-itemfield">Map URL</label>
                 <input
@@ -453,6 +487,7 @@ if (image2) {
                   onChange={(e) => setProductDetails({ ...productDetails, map: e.target.value })}
                   placeholder="Map URL"
                 />
+              </div>
               </div>
               <div className='images1'>
                       <div className="addproduct-itemfield2">
