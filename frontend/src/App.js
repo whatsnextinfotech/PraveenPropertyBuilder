@@ -5,7 +5,7 @@ import Header from './components/layouts/Header';
 import WhatsAppButton from './components/layouts/whatapp'; 
 
 
-import {useLocation, BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -48,8 +48,7 @@ import PraveenSudikshaGarden from './components/layouts/Projects/Upcomeing/Upcom
 
 import ProductDetail from './components/product/ProductDetail';
 
-import ReactGA from "react-ga4";
-ReactGA.initialize("G-MMB5V01JSL");
+
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("")
@@ -62,11 +61,7 @@ function App() {
     getStripeApiKey()
   },[])
 
-  const location = useLocation();
-
-  useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: location.pathname });
-  }, [location]);
+  
 
   return (
 
