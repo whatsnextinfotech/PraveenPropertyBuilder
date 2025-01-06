@@ -5,7 +5,7 @@ import Header from './components/layouts/Header';
 import WhatsAppButton from './components/layouts/whatapp'; 
 
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import {useLocation, BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -48,7 +48,6 @@ import PraveenSudikshaGarden from './components/layouts/Projects/Upcomeing/Upcom
 
 import ProductDetail from './components/product/ProductDetail';
 
-import { useLocation } from "react-router-dom";
 import ReactGA from "react-ga4";
 ReactGA.initialize("G-MMB5V01JSL");
 
