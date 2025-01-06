@@ -48,9 +48,9 @@ import PraveenSudikshaGarden from './components/layouts/Projects/Upcomeing/Upcom
 
 import ProductDetail from './components/product/ProductDetail';
 
-
-
-
+import { useLocation } from "react-router-dom";
+import ReactGA from "react-ga4";
+ReactGA.initialize("G-MMB5V01JSL");
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("")
@@ -62,6 +62,12 @@ function App() {
     }
     getStripeApiKey()
   },[])
+
+  const location = useLocation();
+
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: location.pathname });
+  }, [location]);
 
   return (
 

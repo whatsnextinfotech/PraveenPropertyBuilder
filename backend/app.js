@@ -241,6 +241,7 @@ app.post('/api/v1/uploadhospital', uploadhospital.single('hospital'), (req, res)
 
 
 //pdf
+// Define the directory to store uploaded PDF files
 const uploadDirpdf = path.join(__dirname, 'upload', 'pdf');
 
 // Ensure the directory exists
@@ -250,9 +251,12 @@ if (!fs.existsSync(uploadDirpdf)) {
 
 // Multer storage configuration for PDF files
 const storagepdf = multer.diskStorage({
-    destination: uploadDirpdf,
+    destination: (req, file, cb) => {
+        cb(null, uploadDirpdf);
+    },
     filename: (req, file, cb) => {
-        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+        const uniqueName = `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`;
+        cb(null, uniqueName);
     },
 });
 
@@ -266,14 +270,14 @@ const uploadpdf = multer({
             cb(new Error('Only PDF files are allowed!'), false);
         }
     },
-    limits: { fileSize: 20 * 1024 * 1024 }, // 20 MB limit
+    limits: { fileSize: 20 * 1024 * 1024 }, // 20 MB size limit
 });
 
 // Serve static files for uploaded PDFs
 app.use('/api/v1/pdf', express.static(uploadDirpdf));
 
 // Upload endpoint for PDF files
-app.post('/api/v1/uploadpdf', (req, res, next) => {
+app.post('/api/v1/uploadpdf', (req, res) => {
     uploadpdf.single('pdf')(req, res, (err) => {
         if (err) {
             if (err.code === 'LIMIT_FILE_SIZE') {
@@ -284,11 +288,15 @@ app.post('/api/v1/uploadpdf', (req, res, next) => {
             }
             return res.status(400).json({ success: 0, message: err.message });
         }
+
         if (!req.file) {
-            return res.status(400).json({ success: 0, message: 'File not uploaded' });
+            return res.status(400).json({
+                success: 0,
+                message: 'File not uploaded. Please provide a valid PDF file.',
+            });
         }
 
-        res.json({
+        res.status(200).json({
             success: 1,
             pdf_url: `https://praveenproperties.com/api/v1/pdf/${req.file.filename}`,
         });
