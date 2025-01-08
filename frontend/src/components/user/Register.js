@@ -1,8 +1,9 @@
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector } from 'react-redux'
 import { register, clearAuthError } from '../../actions/userActions'
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
 import { useNavigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 
 export default function Register() {
     const [userData, setUserData] = useState({
@@ -50,7 +51,7 @@ export default function Register() {
         }
         if(error)  {
             toast(error, {
-                position: toast.POSITION.BOTTOM_CENTER,
+                position: "bottom-center",
                 type: 'error',
                 onOpen: ()=> { dispatch(clearAuthError) }
             })
@@ -59,6 +60,8 @@ export default function Register() {
     },[error, isAuthenticated, dispatch, navigate])
 
     return (
+        <>
+           <ToastContainer />
         <div className="row wrapper">
             <div className="col-10 col-lg-5">
             <form onSubmit={submitHandler} className="shadow-lg" encType='multipart/form-data'>
@@ -133,5 +136,6 @@ export default function Register() {
             </form>
             </div>
         </div>
+        </>
     )
 }
