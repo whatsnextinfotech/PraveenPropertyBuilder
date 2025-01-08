@@ -4,7 +4,7 @@ import { useDispatch, useSelector} from 'react-redux';
 import { useNavigate, useParams } from "react-router-dom";
 import { getUser, updateUser } from "../../actions/userActions";
 import { clearError, clearUserUpdated } from "../../slices/userSlice";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 
 
@@ -62,6 +62,8 @@ export default function UpdateUser () {
 
 
     return (
+        <>
+           <ToastContainer />
         <div className="row">
             <div className="col-12 col-md-2">
                     <Sidebar/>
@@ -114,6 +116,6 @@ export default function UpdateUser () {
                 </Fragment>
             </div>
         </div>
-        
+        </>
     )
 }

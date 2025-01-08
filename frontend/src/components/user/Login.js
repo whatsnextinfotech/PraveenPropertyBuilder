@@ -2,8 +2,10 @@ import {Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearAuthError, login } from '../../actions/userActions';
 import MetaData from '../layouts/MetaData';
-import { toast } from 'react-toastify';
+
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 export default function Login() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -27,7 +29,7 @@ export default function Login() {
 
         if(error)  {
             toast(error, {
-                position: toast.POSITION.BOTTOM_CENTER,
+                position: "bottom-center",
                 type: 'error',
                 onOpen: ()=> { dispatch(clearAuthError) }
             })
@@ -37,6 +39,7 @@ export default function Login() {
 
     return (
         <Fragment>
+               <ToastContainer />
             <MetaData title={`Login`} />
             <div className="row wrapper"> 
                 <div className="col-10 col-lg-5">
