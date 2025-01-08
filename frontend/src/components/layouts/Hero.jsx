@@ -282,6 +282,10 @@ const Hero = () => {
           
           animation: zoomIn 20s infinite alternate;
         }
+          @keyframes zoomIn {
+          from { transform: scale(1.2); }
+          to { transform: scale(1.3);}
+          }
         }
 
         @media (min-width: 768px) {
@@ -308,7 +312,7 @@ const Hero = () => {
             
             }
             .search-form{
-             margin-left:-80px !important;
+            margin-left:-130px !important;
             }
         }
       `}</style>
