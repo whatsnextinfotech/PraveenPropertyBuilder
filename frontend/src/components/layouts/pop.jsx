@@ -2,10 +2,8 @@ import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearAuthError, login } from '../../actions/userActions';
 import MetaData from '../layouts/MetaData';
-import { toast, ToastContainer } from "react-toastify"; 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ImCancelCircle } from "react-icons/im";
-import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -31,7 +29,7 @@ export default function Login() {
                 setShowModal(true);
             }, 5000); // Show modal after 5 seconds
         } else {
-            setShowModal(false); // Ensure modal is hidden if authenticated
+            setShowModal(false); 
         }
 
         if (isAuthenticated) {
@@ -39,19 +37,14 @@ export default function Login() {
         }
 
         if (error) {
-            toast(error, {
-                position: "bottom-center",
-                type: 'error',
-                onOpen: () => { dispatch(clearAuthError()) }
-            });
+            // Check for a specific error type, for example, invalid password
+            alert("Incorrect email or password. Please try again!");
         }
 
         return () => clearTimeout(timer);
     }, [error, isAuthenticated, dispatch, navigate]);
 
     return (
-        <>
-           <ToastContainer />
         <Fragment>
             <MetaData title={`Login`} />
 
@@ -59,7 +52,7 @@ export default function Login() {
                 <div className="modal-overlay">
                     <div className="modal-container">
                         <div className="custom-close-button" onClick={() => setShowModal(false)}>
-                        <ImCancelCircle />
+                            <ImCancelCircle />
                         </div>
                         
                         <div className="modal-header">
@@ -105,7 +98,6 @@ export default function Login() {
                         </div>
                     </div>
                 </div>
-                
             )}
 
             <style>
@@ -220,8 +212,8 @@ color:green;
     text-decoration: underline;
 }
 `}
+
             </style>
         </Fragment>
-        </>
     );
 }
