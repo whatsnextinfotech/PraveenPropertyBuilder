@@ -2,7 +2,6 @@ import {Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearAuthError, login } from '../../actions/userActions';
 import MetaData from '../layouts/MetaData';
-
 import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS

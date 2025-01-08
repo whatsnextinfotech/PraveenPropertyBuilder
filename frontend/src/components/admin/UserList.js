@@ -6,9 +6,10 @@ import { deleteUser, getUsers } from "../../actions/userActions"
 import { clearError, clearUserDeleted } from "../../slices/userSlice"
 import Loader from '../layouts/Loader';
 import { MDBDataTable} from 'mdbreact';
-import {toast } from 'react-toastify'
-import Sidebar from './Sidebar/Sidebar'
-import './Userlist.css'
+import { toast, ToastContainer } from "react-toastify"; 
+import Sidebar from './Sidebar/Sidebar';
+import './Userlist.css';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 
 export default function UserList() {
@@ -72,7 +73,7 @@ export default function UserList() {
     useEffect(() => {
         if(error) {
             toast(error, {
-                position: toast.POSITION.BOTTOM_CENTER,
+                position: "bottom-center",
                 type: 'error',
                 onOpen: ()=> { dispatch(clearError()) }
             })
@@ -81,7 +82,7 @@ export default function UserList() {
         if(isUserDeleted) {
             toast('User Deleted Succesfully!',{
                 type: 'success',
-                position: toast.POSITION.BOTTOM_CENTER,
+                position: "bottom-center",
                 onOpen: () => dispatch(clearUserDeleted())
             })
             return;
@@ -92,6 +93,8 @@ export default function UserList() {
 
 
     return (
+        <>
+           <ToastContainer />
         <div className="admin">
          <Sidebar/>
         <div className="col-12 col-md-10">
@@ -111,5 +114,6 @@ export default function UserList() {
                 </Fragment>
         </div>
     </div>
+    </>
     )
 }

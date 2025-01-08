@@ -2,9 +2,10 @@ import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearAuthError, login } from '../../actions/userActions';
 import MetaData from '../layouts/MetaData';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify"; 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ImCancelCircle } from "react-icons/im";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -39,7 +40,7 @@ export default function Login() {
 
         if (error) {
             toast(error, {
-                position: toast.POSITION.BOTTOM_CENTER,
+                position: "bottom-center",
                 type: 'error',
                 onOpen: () => { dispatch(clearAuthError()) }
             });
@@ -49,6 +50,8 @@ export default function Login() {
     }, [error, isAuthenticated, dispatch, navigate]);
 
     return (
+        <>
+           <ToastContainer />
         <Fragment>
             <MetaData title={`Login`} />
 
@@ -102,6 +105,7 @@ export default function Login() {
                         </div>
                     </div>
                 </div>
+                
             )}
 
             <style>
@@ -218,5 +222,6 @@ color:green;
 `}
             </style>
         </Fragment>
+        </>
     );
 }
