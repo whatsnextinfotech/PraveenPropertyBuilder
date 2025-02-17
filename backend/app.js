@@ -312,79 +312,79 @@ const Product = mongoose.model("Product", {
     },
     name: {
         type: String,
-        require: true,
+        required: true,
     },
     image: {
         type: String,
-        require: true,
+        required: true,
     },
     image1: {
       type: String,
-      require: true,
+      required: true,
   },
   image2: {
     type: String,
-    require: true,
+    required: true,
    },
   image3: {
   type: String,
-  require: true,
+  required: true,
   },
   schoolimage: {
     type: String,
-    require: true,
+    required: true,
    },
    collegeimage: {
      type: String,
-     require: true,
+     required: true,
    },
    hospitalimage: {
      type: String,
-     require: true,
+     required: true,
    },
     category: {
         type: String,
-        require: true,
+        required: true,
     },
     start_price: {
         type: String,
-        require: true,
+        required: true,
     },
     end_price: {
         type: String,
-        require: true,
+        required: true,
     },
     location: {
         type: String,
-        require: true,
+        required: true,
     },
     city: {
         type: String,
-        require: true,
+        required: true,
     },
     map: {
         type: String,
-        require: true,
+        required: true,
     },
     land: {
         type: String,
-        require: true,
+        required: true,
     },
     school_list: {
         type: String,
-        require: true,
+        required: true,
     },
     college_list: {
         type: String,
-        require: true,
+        required: true,
     },
     hospital_list: {
         type: String,
-        require: true,
+        required: true,
     },
     pdf:{
         type: String,
-        require: true,
+        required: true,
     },
     date: {
         type: Date,
