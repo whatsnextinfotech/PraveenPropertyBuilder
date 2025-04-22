@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import upcoming from '../../../assest/Headers/upcoming.jpeg';
-const apiurl = process.env.REACT_APP_API_URL;
+
 const ProjectCard = ({ id, name, city, price,  land, imageUrl, isVisible, index }) => {
 
 
@@ -44,7 +44,7 @@ const Projects = () => {
 
   const fetchInfo = async () => {
     try {
-      const response = await fetch(`${apiurl}/api/v1/upcomingproject`);
+      const response = await fetch('https://praveenproperties.com/api/v1/upcomingproject');
       if (!response.ok) throw new Error('Failed to fetch project data');
       const data = await response.json();
       setUpcomingProjects(data || []);

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
 const productSlice = createSlice({
     name: 'product',
     initialState: {
@@ -97,6 +98,34 @@ const productSlice = createSlice({
                 isProductCreated: false
             }
         },
+         newProductRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        newProductSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                product: action.payload.product,
+                isProductCreated: true
+            }
+        },
+        newProductFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload,
+                isProductCreated: false
+            }
+        },
+        clearProductCreated(state, action) {
+            return {
+                ...state,
+                isProductCreated: false
+            }
+        },
         deleteProductRequest(state, action){
             return {
                 ...state,
@@ -123,6 +152,7 @@ const productSlice = createSlice({
                 isProductDeleted: false
             }
         },
+
         updateProductRequest(state, action){
             return {
                 ...state,
@@ -150,6 +180,7 @@ const productSlice = createSlice({
                 isProductUpdated: false
             }
         },
+
         reviewsRequest(state, action){
             return {
                 ...state,
@@ -196,6 +227,7 @@ const productSlice = createSlice({
                 isReviewDeleted: false
             }
         },
+
     }
 });
 
@@ -233,3 +265,4 @@ export const {
 } = actions;
 
 export default reducer;
+

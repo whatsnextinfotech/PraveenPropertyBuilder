@@ -1,13 +1,14 @@
+// Projects.js
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-const apiurl = process.env.REACT_APP_API_URL;
+import { Link, useNavigate } from 'react-router-dom';
+const ProjectCard = ({ id, name, city, price,  land, imageUrl, isVisible, index }) => {
 
-const ProjectCard = ({ id, name, city, price, land, imageUrl, isVisible, index }) => {
+
   return (
     <div
       className={`project-card ${isVisible ? 'visible' : ''}`}
       style={{
-        transitionDelay: `${index * 200}ms`,
+        transitionDelay: `${index * 350}ms`,
         transform: isVisible
           ? 'translateX(0)'
           : index % 2 === 0
@@ -18,8 +19,8 @@ const ProjectCard = ({ id, name, city, price, land, imageUrl, isVisible, index }
     >
       <img src={imageUrl} alt={name} className="project-image" />
       <div className="overlay">
-        <Link to={`/product/${id}`} className="view-more-button">
-          View More
+        <Link to={`/product/${id}`} className="view-more-button" style={{ textDecoration: 'none' }}>
+            View More
         </Link>
       </div>
       <div className="project-info">
@@ -35,16 +36,16 @@ const ProjectCard = ({ id, name, city, price, land, imageUrl, isVisible, index }
 };
 
 const Projects = () => {
-  const [projects, setProjects] = useState([]);
+  const [upcomingProjects, setUpcomingProjects] = useState([]);
   const [visibleCards, setVisibleCards] = useState([]);
   const cardsRef = useRef([]);
 
-  const fetchProjects = async () => {
+  const fetchInfo = async () => {
     try {
-      const response = await fetch(`${apiurl}/api/v1/recentlyadded`);
+      const response = await fetch('https://praveenproperties.com/api/v1/recentlyadded');
       if (!response.ok) throw new Error('Failed to fetch project data');
       const data = await response.json();
-      setProjects(data || []);
+      setUpcomingProjects(data || []);
       setVisibleCards(new Array(data.length).fill(false));
     } catch (error) {
       console.error('Error fetching project data:', error.message);
@@ -52,59 +53,47 @@ const Projects = () => {
   };
 
   useEffect(() => {
-    fetchProjects();
+    fetchInfo();
   }, []);
 
   useEffect(() => {
-    // Only set up observer if we have projects
-    if (projects.length === 0) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = Number(entry.target.dataset.index);
+          setVisibleCards((prev) => {
+            const newVisibleCards = [...prev];
+            newVisibleCards[index] = true;
+            return newVisibleCards;
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    });
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = Number(entry.target.dataset.index);
-            setVisibleCards((prev) => {
-              if (prev[index]) return prev; // Skip if already visible
-              const newVisibleCards = [...prev];
-              newVisibleCards[index] = true;
-              return newVisibleCards;
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 } // Trigger when 20% of the element is visible
-    );
-
-    // Reset refs array to match current number of projects
-    cardsRef.current = cardsRef.current.slice(0, projects.length);
-    
-    // Observe all card elements
     cardsRef.current.forEach((card) => {
       if (card) observer.observe(card);
     });
 
     return () => observer.disconnect();
-  }, [projects]);
+  }, [upcomingProjects]);
 
   return (
     <section className="projects-section">
       <h2 className="section-title">Recently Added Projects</h2>
+      <br /> <br />
 
       <div className="projects-grid">
-        {projects.map((product, index) => (
-          <div 
-            key={product._id || index} 
-            ref={(el) => (cardsRef.current[index] = el)} 
-            data-index={index}
-          >
+        {upcomingProjects.map((product, index) => (
+          <div key={index} ref={(el) => (cardsRef.current[index] = el)} data-index={index}>
             <ProjectCard
               name={product.name}
+              location={product.location}
               city={product.city}
               price={product.start_price}
               land={product.land}
               imageUrl={product.image}
+              route={product.route}
               id={product._id}
               isVisible={visibleCards[index]}
               index={index}
@@ -120,7 +109,7 @@ const Projects = () => {
         .section-title {
           font-size: 24px;
           font-weight: 700;
-          margin-bottom: 30px;
+          margin-bottom: 20px;
           color: #322153;
         }
         .projects-grid {
@@ -139,7 +128,7 @@ const Projects = () => {
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
           transform: translateX(-100%);
           opacity: 0;
-          transition: transform 0.5s ease, opacity 0.4s ease, box-shadow 0.3s ease;
+          transition: transform 0.8s ease, opacity 0.5s ease, box-shadow 0.3s ease;
           cursor: pointer;
         }
         .project-card.visible {
@@ -148,7 +137,7 @@ const Projects = () => {
         }
         .project-card:hover {
           box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
-          transform: scale(1.03);
+          transform: scale(1.05);
         }
         .project-card:hover .overlay {
           opacity: 1;
@@ -180,14 +169,11 @@ const Projects = () => {
           border: none;
           border-radius: 5px;
           font-size: 14px;
-          font-weight: 600;
           cursor: pointer;
           transition: background-color 0.3s ease;
-          text-decoration: none;
-          display: inline-block;
         }
         .view-more-button:hover {
-          color: #fff;
+        color: #fff;
           background-color: #e55a00;
         }
         .project-info {
@@ -235,7 +221,7 @@ const Projects = () => {
             grid-template-columns: repeat(1, 1fr);
           }
           .project-image {
-            height: 200px;
+            height: 150px;
           }
         }
       `}</style>
