@@ -41,6 +41,7 @@ import {
 
 } from '../slices/userSlice'
 import axios from 'axios';
+// const apiurl = process.env.REACT_APP_API_URL;
 
 export const login = (email, password) => async (dispatch) => {
 

@@ -3,6 +3,7 @@ import './ListProduct.css';
 import { MdDeleteForever } from "react-icons/md";
 import Sidebar from '../Sidebar/Sidebar';
 import { MdOutlineCloudUpload } from "react-icons/md";
+const apiurl = process.env.REACT_APP_API_URL;
 
 const ListProduct = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -19,7 +20,7 @@ const ListProduct = () => {
 
   const fetchInfo = async () => {
     try {
-      const res = await fetch('https://praveenproperties.com/api/v1/allproducts');
+      const res = await fetch(`${apiurl}/api/v1/allproducts`);
       const data = await res.json();
       setAllProducts(data);
     } catch (error) {
@@ -39,7 +40,7 @@ const ListProduct = () => {
     }
 
     try {
-      const response = await fetch('https://praveenproperties.com/api/v1/removeproduct', {
+      const response = await fetch(`${apiurl}/api/v1/removeproduct`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -119,7 +120,7 @@ const ListProduct = () => {
 
       // Upload the image if it's provided
       try {
-        const resp = await fetch('https://praveenproperties.com/api/v1/upload', {
+        const resp = await fetch(`${apiurl}/api/v1/upload`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
@@ -146,7 +147,7 @@ const ListProduct = () => {
       const formData = new FormData();
       formData.append('product1', image1);
 
-      const singleImageResponse = await fetch('https://praveenproperties.com/api/v1/upload1', {
+      const singleImageResponse = await fetch(`${apiurl}/api/v1/upload1`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -166,7 +167,7 @@ if (image2) {
       const formData = new FormData();
       formData.append('product2', image2);
 
-      const singleImageResponse = await fetch('https://praveenproperties.com/api/v1/upload3', {
+      const singleImageResponse = await fetch(`${apiurl}/api/v1/upload3`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -186,7 +187,7 @@ if (image2) {
       const formData = new FormData();
       formData.append('product3', image3);
 
-      const singleImageResponse = await fetch('https://praveenproperties.com/api/v1/upload4', {
+      const singleImageResponse = await fetch(`${apiurl}/api/v1/upload4`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -208,7 +209,7 @@ if (image2) {
     const formData = new FormData();
     formData.append('school', schoolimage);
     
-    const singleImageResponse = await fetch('https://praveenproperties.com/api/v1/uploadschool', {
+    const singleImageResponse = await fetch(`${apiurl}/api/v1/uploadschool`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -229,7 +230,7 @@ if (image2) {
     const formData = new FormData();
     formData.append('college', collegeimage);
     
-    const singleImageResponse = await fetch('https://praveenproperties.com/api/v1/uploadcollege', {
+    const singleImageResponse = await fetch(`${apiurl}/api/v1/uploadcollege`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -250,7 +251,7 @@ if (image2) {
     const formData = new FormData();
     formData.append('hospital', hospitalimage);
     
-    const singleImageResponse = await fetch('https://praveenproperties.com/api/v1/uploadhospital', {
+    const singleImageResponse = await fetch(`${apiurl}/api/v1/uploadhospital`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -271,7 +272,7 @@ if (pdf) {
   const formData = new FormData();
   formData.append('pdf', pdf);
   try {
-    const response = await fetch('https://praveenproperties.com/api/v1/uploadpdf', {
+    const response = await fetch(`${apiurl}/api/v1/uploadpdf`, {
       method: 'POST',
       body: formData,
     });
@@ -294,7 +295,7 @@ if (pdf) {
 
     // Send a PUT request to update the product
     try {
-      const resp = await fetch(`https://praveenproperties.com/api/v1/updateproduct/${product._id}`, {
+      const resp = await fetch(`${apiurl}/api/v1/updateproduct/${product._id}`, {
         method: 'PUT',
         headers: {
           Accept: 'application/json',

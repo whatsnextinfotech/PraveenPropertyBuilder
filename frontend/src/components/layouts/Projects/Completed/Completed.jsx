@@ -3,12 +3,12 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import './completed.css';
 
 import upcoming from '../../../assest/Headers/complete.jpeg';
-
+const apiurl = process.env.REACT_APP_API_URL;
 const Completed = () => {
   const [completedproject,setCompletedProject] = useState([]);
 
   const fetchInfo = async ()=>{
-    await fetch('https://praveenproperties.com/api/v1/completedproject')
+    await fetch(`${apiurl}/api/v1/completedproject`)
     .then((res)=>res.json())
     .then((data)=>{setCompletedProject(data)});
   }
