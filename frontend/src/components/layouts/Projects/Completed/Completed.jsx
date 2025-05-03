@@ -8,7 +8,7 @@ const Completed = () => {
   const [completedproject,setCompletedProject] = useState([]);
 
   const fetchInfo = async ()=>{
-    await fetch(`${apiurl}/api/v1/completedproject`)
+    await fetch(`${apiurl}api/v1/completedproject`)
     .then((res)=>res.json())
     .then((data)=>{setCompletedProject(data)});
   }

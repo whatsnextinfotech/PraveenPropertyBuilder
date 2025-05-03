@@ -44,7 +44,7 @@ const Projects = () => {
 
   const fetchInfo = async () => {
     try {
-      const response = await fetch(`${apiurl}/api/v1/upcomingproject`);
+      const response = await fetch(`${apiurl}api/v1/upcomingproject`);
       if (!response.ok) throw new Error('Failed to fetch project data');
       const data = await response.json();
       setUpcomingProjects(data || []);
