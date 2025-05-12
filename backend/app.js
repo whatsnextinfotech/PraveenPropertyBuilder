@@ -443,6 +443,7 @@ app.post('/api/v1/addproduct', async (req, res) => {
 
 // Product Update Endpoint
 // Product Update Endpoint
+// Product Update Endpoint
 app.put('/api/v1/updateproduct/:id', async (req, res) => {
     try {
         // Log the incoming request
@@ -457,7 +458,7 @@ app.put('/api/v1/updateproduct/:id', async (req, res) => {
             });
         }
         
-        // Find the product first to verify it exists and to preserve fields
+        // Find the product first to verify it exists
         const existingProduct = await Product.findById(req.params.id);
         if (!existingProduct) {
             console.log("Product not found:", req.params.id);
@@ -467,42 +468,38 @@ app.put('/api/v1/updateproduct/:id', async (req, res) => {
             });
         }
         
-        // Create an update object that preserves existing values
-        // and only updates provided fields
-        const updateData = { ...existingProduct.toObject() };
-        
         // Only update fields that are explicitly provided in the request body
-        if (req.body.name !== undefined) updateData.name = req.body.name;
-        if (req.body.image !== undefined) updateData.image = req.body.image;
-        if (req.body.image1 !== undefined) updateData.image1 = req.body.image1;
-        if (req.body.image2 !== undefined) updateData.image2 = req.body.image2;
-        if (req.body.image3 !== undefined) updateData.image3 = req.body.image3;
-        if (req.body.schoolimage !== undefined) updateData.schoolimage = req.body.schoolimage;
-        if (req.body.collegeimage !== undefined) updateData.collegeimage = req.body.collegeimage;
-        if (req.body.hospitalimage !== undefined) updateData.hospitalimage = req.body.hospitalimage;
-        if (req.body.category !== undefined) updateData.category = req.body.category;
-        if (req.body.start_price !== undefined) updateData.start_price = req.body.start_price;
-        if (req.body.end_price !== undefined) updateData.end_price = req.body.end_price;
-        if (req.body.location !== undefined) updateData.location = req.body.location;
-        if (req.body.city !== undefined) updateData.city = req.body.city;
-        if (req.body.land !== undefined) updateData.land = req.body.land;
-        if (req.body.map !== undefined) updateData.map = req.body.map;
-        if (req.body.school_list !== undefined) updateData.school_list = req.body.school_list;
-        if (req.body.college_list !== undefined) updateData.college_list = req.body.college_list;
-        if (req.body.hospital_list !== undefined) updateData.hospital_list = req.body.hospital_list;
-        if (req.body.pdf !== undefined) updateData.pdf = req.body.pdf;
+        const updateData = {};
+        const fieldsToCopy = [
+            'name', 'image', 'image1', 'image2', 'image3', 
+            'schoolimage', 'collegeimage', 'hospitalimage',
+            'category', 'start_price', 'end_price', 'location', 
+            'city', 'land', 'map', 'school_list', 
+            'college_list', 'hospital_list', 'pdf'
+        ];
         
-        // Remove MongoDB-specific fields to avoid "Performing an update on the path '_id' would modify the immutable field '_id'" error
-        delete updateData._id;
+        fieldsToCopy.forEach(field => {
+            if (req.body[field] !== undefined) {
+                updateData[field] = req.body[field];
+            }
+        });
         
-        // Perform the update with the properly prepared data
+        // If no fields to update were provided, return early
+        if (Object.keys(updateData).length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'No fields provided for update'
+            });
+        }
+        
         console.log("Updating with data:", JSON.stringify(updateData, null, 2));
         
+        // Use findByIdAndUpdate with the properly prepared data
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
             updateData,
             { 
-                new: true,  // Return the updated document
+                new: true,           // Return the updated document
                 runValidators: true  // Run schema validators
             }
         );

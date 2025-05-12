@@ -191,87 +191,86 @@ const ListProduct = () => {
     }
   };
 
-  // Updated updateProduct function for React component
+  // Updated updateProduct function with improved field handling
   const updateProduct = async () => {
-    if (!productDetails) {
-      alert("No product to update");
+    if (!productDetails || !productDetails._id) {
+      alert("No product to update or missing product ID");
       return;
     }
 
     try {
-      // Create a copy of the product to update
-      const updatedProduct = { ...productDetails };
-      let hasChanges = false;
+      console.log("Starting update for product ID:", productDetails._id);
       
-      // Upload files and update URLs in the product object
-      const uploadTasks = [];
+      // Create an update payload with only the fields that need to be sent
+      const updatePayload = {};
+      
+      // Always include these text fields from the form
+      const textFields = [
+        'name', 'category', 'start_price', 'end_price', 
+        'location', 'city', 'land', 'map', 
+        'school_list', 'college_list', 'hospital_list'
+      ];
+      
+      // Add current values to the payload
+      textFields.forEach(field => {
+        updatePayload[field] = productDetails[field];
+      });
       
       // Define upload configurations
       const uploads = [
-        { file: image, endpoint: 'upload', fieldName: 'product', productField: 'image' },
-        { file: image1, endpoint: 'upload1', fieldName: 'product1', productField: 'image1' },
-        { file: image2, endpoint: 'upload3', fieldName: 'product2', productField: 'image2' },
-        { file: image3, endpoint: 'upload4', fieldName: 'product3', productField: 'image3' },
-        { file: schoolimage, endpoint: 'uploadschool', fieldName: 'school', productField: 'schoolimage' },
-        { file: collegeimage, endpoint: 'uploadcollege', fieldName: 'college', productField: 'collegeimage' },
-        { file: hospitalimage, endpoint: 'uploadhospital', fieldName: 'hospital', productField: 'hospitalimage' },
-        { file: pdf, endpoint: 'uploadpdf', fieldName: 'pdf', productField: 'pdf' }
+        { file: image, endpoint: 'upload', fieldName: 'product', payloadField: 'image' },
+        { file: image1, endpoint: 'upload1', fieldName: 'product1', payloadField: 'image1' },
+        { file: image2, endpoint: 'upload3', fieldName: 'product2', payloadField: 'image2' },
+        { file: image3, endpoint: 'upload4', fieldName: 'product3', payloadField: 'image3' },
+        { file: schoolimage, endpoint: 'uploadschool', fieldName: 'school', payloadField: 'schoolimage' },
+        { file: collegeimage, endpoint: 'uploadcollege', fieldName: 'college', payloadField: 'collegeimage' },
+        { file: hospitalimage, endpoint: 'uploadhospital', fieldName: 'hospital', payloadField: 'hospitalimage' },
+        { file: pdf, endpoint: 'uploadpdf', fieldName: 'pdf', payloadField: 'pdf' }
       ];
       
-      // Process each upload
+      // Process each upload sequentially to avoid race conditions
       for (const upload of uploads) {
         if (upload.file) {
           try {
-            console.log(`Uploading ${upload.productField}...`);
+            console.log(`Uploading ${upload.payloadField}...`);
             const url = await uploadFile(upload.file, upload.endpoint, upload.fieldName);
             
             if (url) {
-              updatedProduct[upload.productField] = url;
-              hasChanges = true;
-              console.log(`Successfully uploaded ${upload.productField}: ${url}`);
+              updatePayload[upload.payloadField] = url;
+              console.log(`Successfully uploaded ${upload.payloadField}: ${url}`);
             }
           } catch (error) {
-            alert(`Failed to upload ${upload.productField}: ${error.message}`);
-            console.error(`${upload.productField} upload failed:`, error);
-            // Continue with other uploads rather than returning early
+            console.error(`${upload.payloadField} upload failed:`, error);
+            alert(`Failed to upload ${upload.payloadField}: ${error.message}`);
+            // Continue with other uploads
           }
         }
       }
 
-      // Check if any text fields were modified
-      const textFields = ['name', 'category', 'start_price', 'end_price', 'location', 'city', 
-                          'land', 'map', 'school_list', 'college_list', 'hospital_list'];
-      
-      textFields.forEach(field => {
-        if (updatedProduct[field] !== productDetails[field]) {
-          hasChanges = true;
-        }
-      });
+      console.log("Sending update request with payload:", updatePayload);
 
-      // Only send the update request if there were changes
-      if (!hasChanges) {
-        alert("No changes were made to update");
-        return;
-      }
-
-      console.log("Sending updated product:", updatedProduct);
-
-      // Send the update request to the backend
-      const updateResponse = await fetch(`${apiurl}api/v1/updateproduct/${updatedProduct._id}`, {
+      // Send the update request to the backend with just the fields we want to update
+      const updateResponse = await fetch(`${apiurl}api/v1/updateproduct/${productDetails._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
         },
-        body: JSON.stringify(updatedProduct),
+        body: JSON.stringify(updatePayload),
       });
 
-      if (!updateResponse.ok) {
-        const errorText = await updateResponse.text();
-        throw new Error(`Server responded with ${updateResponse.status}: ${errorText}`);
+      const updateResponseText = await updateResponse.text();
+      console.log("Raw server response:", updateResponseText);
+      
+      let updateData;
+      try {
+        updateData = JSON.parse(updateResponseText);
+      } catch (error) {
+        throw new Error(`Invalid JSON response: ${updateResponseText}`);
       }
 
-      const updateData = await updateResponse.json();
+      if (!updateResponse.ok) {
+        throw new Error(`Server responded with ${updateResponse.status}: ${updateData.message || updateResponseText}`);
+      }
       
       if (updateData.success) {
         alert("Product updated successfully!");
@@ -383,15 +382,14 @@ const ListProduct = () => {
                 <input
                   id="productName"
                   type="text"
-                  value={productDetails.name}
+                  value={productDetails.name || ''}
                   onChange={(e) => setProductDetails({ ...productDetails, name: e.target.value })}
                   placeholder="Enter Product Name"
                 />
                 
-
                 <label htmlFor="category" className="addproduct-itemfield">Category</label>
                 <select
-                  value={productDetails.category}
+                  value={productDetails.category || 'Ongoing Project'}
                   onChange={(e) => setProductDetails({ ...productDetails, category: e.target.value })}
                   id="category"
                   className="add-product-selector"
@@ -406,7 +404,7 @@ const ListProduct = () => {
                 <input
                   id="startPrice"
                   type="text"
-                  value={productDetails.start_price}
+                  value={productDetails.start_price || ''}
                   onChange={(e) => setProductDetails({ ...productDetails, start_price: e.target.value })}
                   placeholder="Start Price"
                 />
@@ -414,7 +412,7 @@ const ListProduct = () => {
                 <input
                   id="endPrice"
                   type="text"
-                  value={productDetails.end_price}
+                  value={productDetails.end_price || ''}
                   onChange={(e) => setProductDetails({ ...productDetails, end_price: e.target.value })}
                   placeholder="End Price"
                 />
@@ -424,7 +422,7 @@ const ListProduct = () => {
                 <input
                   id="location"
                   type="text"
-                  value={productDetails.location}
+                  value={productDetails.location || ''}
                   onChange={(e) => setProductDetails({ ...productDetails, location: e.target.value })}
                   placeholder="Location"
                 />
@@ -432,7 +430,7 @@ const ListProduct = () => {
                 <input
                   id="city"
                   type="text"
-                  value={productDetails.city}
+                  value={productDetails.city || ''}
                   onChange={(e) => setProductDetails({ ...productDetails, city: e.target.value })}
                   placeholder="City"
                 />
@@ -442,7 +440,7 @@ const ListProduct = () => {
                 <input
                   id="land"
                   type="text"
-                  value={productDetails.land}
+                  value={productDetails.land || ''}
                   onChange={(e) => setProductDetails({ ...productDetails, land: e.target.value })}
                   placeholder="Land Type"
                 />
@@ -450,7 +448,7 @@ const ListProduct = () => {
                 <input
                   id="schoolList"
                   type="text"
-                  value={productDetails.school_list}
+                  value={productDetails.school_list || ''}
                   onChange={(e) => setProductDetails({ ...productDetails, school_list: e.target.value })}
                   placeholder="School List"
                 />
@@ -460,7 +458,7 @@ const ListProduct = () => {
                 <input
                   id="collegeList"
                   type="text"
-                  value={productDetails.college_list}
+                  value={productDetails.college_list || ''}
                   onChange={(e) => setProductDetails({ ...productDetails, college_list: e.target.value })}
                   placeholder="College List"
                 />
@@ -468,7 +466,7 @@ const ListProduct = () => {
                 <input
                   id="hospitalList"
                   type="text"
-                  value={productDetails.hospital_list}
+                  value={productDetails.hospital_list || ''}
                   onChange={(e) => setProductDetails({ ...productDetails, hospital_list: e.target.value })}
                   placeholder="Hospital List"
                 />
@@ -483,7 +481,7 @@ const ListProduct = () => {
                   <input
                     id="mapUrl"
                     type="text"
-                    value={productDetails.map}
+                    value={productDetails.map || ''}
                     onChange={(e) => setProductDetails({ ...productDetails, map: e.target.value })}
                     placeholder="Map URL"
                   />
