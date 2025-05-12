@@ -15,8 +15,19 @@ const ListProduct = () => {
   const [schoolimage, setschoolimage] = useState(null);
   const [collegeimage, setcollegeimage] = useState(null);
   const [hospitalimage, sethospitalimage] = useState(null);
-    const [pdf, setPdf] = useState(null);
+  const [pdf, setPdf] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+  // Add states to track currently displayed images
+  const [currentImages, setCurrentImages] = useState({
+    image: '',
+    image1: '',
+    image2: '',
+    image3: '',
+    schoolimage: '',
+    collegeimage: '',
+    hospitalimage: '',
+    pdf: ''
+  });
 
   const fetchInfo = async () => {
     try {
@@ -68,10 +79,31 @@ const ListProduct = () => {
 
   const handleEditClick = (product) => {
     setProductDetails(product); // Set the product details to be edited
-    setImage(null); // Reset the image for the edit
+    
+    // Reset all image states
+    setImage(null);
+    setImage1(null);
+    setImage2(null);
+    setImage3(null);
+    setschoolimage(null);
+    setcollegeimage(null);
+    sethospitalimage(null);
+    setPdf(null);
+    
+    // Set current image URLs for display/preview
+    setCurrentImages({
+      image: product.image || '',
+      image1: product.image1 || '',
+      image2: product.image2 || '',
+      image3: product.image3 || '',
+      schoolimage: product.schoolimage || '',
+      collegeimage: product.collegeimage || '',
+      hospitalimage: product.hospitalimage || '',
+      pdf: product.pdf || ''
+    });
+    
     setIsModalOpen(true); // Open the modal
   };
-
 
   //image Change handlers
   const handleImageChange = (e) => {
@@ -82,239 +114,207 @@ const ListProduct = () => {
   };
 
   const handleImageChange1 = (e) => {
-    setImage1(e.target.files[0]); 
+    const file = e.target.files[0];
+    if (file) {
+      setImage1(file);
+    }
   };
 
   const handleImageChange2 = (e) => {
-    setImage2(e.target.files[0]); 
+    const file = e.target.files[0];
+    if (file) {
+      setImage2(file);
+    }
   };
 
   const handleImageChange3 = (e) => {
-    setImage3(e.target.files[0]); 
+    const file = e.target.files[0];
+    if (file) {
+      setImage3(file);
+    }
   };
 
   const handleImageChangeschool = (e) => {
-    setschoolimage(e.target.files[0]); 
+    const file = e.target.files[0];
+    if (file) {
+      setschoolimage(file);
+    }
   };
+  
   const handleImageChangecollege = (e) => {
-    setcollegeimage(e.target.files[0]); 
+    const file = e.target.files[0];
+    if (file) {
+      setcollegeimage(file);
+    }
   };
+  
   const handleImageChangehospital = (e) => {
-    sethospitalimage(e.target.files[0]); 
+    const file = e.target.files[0];
+    if (file) {
+      sethospitalimage(file);
+    }
   };
-  const pdfHandler = (e) => { setPdf(e.target.files[0]); };
+  
+  const pdfHandler = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPdf(file);
+    }
+  };
 
+  // Helper function to upload a single file
+  const uploadFile = async (file, endpoint, fieldName) => {
+    if (!file) return null;
+    
+    try {
+      const formData = new FormData();
+      formData.append(fieldName, file);
+      
+      const response = await fetch(`${apiurl}api/v1/${endpoint}`, {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      if (data.success) {
+        return data.image_url || data.pdf_url;
+      } else {
+        throw new Error(data.message || 'Unknown error');
+      }
+    } catch (error) {
+      console.error(`Failed to upload ${fieldName}:`, error);
+      throw error;
+    }
+  };
 
+  // Updated updateProduct function for React component
   const updateProduct = async () => {
     if (!productDetails) {
       alert("No product to update");
       return;
     }
 
-    let responseData;
-    const product = { ...productDetails }; // Copy product details for update
-    const formData = new FormData();
-
-    if (image) {
-      formData.append('product', image); // Append the image to form data if provided
-
-      // Upload the image if it's provided
-      try {
-        const resp = await fetch(`${apiurl}api/v1/upload`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-          },
-          body: formData,
-        });
-        responseData = await resp.json();
-
-        // If image is uploaded successfully, update the product's image URL
-        if (responseData.success) {
-          product.image = responseData.image_url; // Update image URL in product details
-        } else {
-          alert("Failed to upload the image");
-          return; // Exit if image upload fails
+    try {
+      // Create a copy of the product to update
+      const updatedProduct = { ...productDetails };
+      let hasChanges = false;
+      
+      // Upload files and update URLs in the product object
+      const uploadTasks = [];
+      
+      // Define upload configurations
+      const uploads = [
+        { file: image, endpoint: 'upload', fieldName: 'product', productField: 'image' },
+        { file: image1, endpoint: 'upload1', fieldName: 'product1', productField: 'image1' },
+        { file: image2, endpoint: 'upload3', fieldName: 'product2', productField: 'image2' },
+        { file: image3, endpoint: 'upload4', fieldName: 'product3', productField: 'image3' },
+        { file: schoolimage, endpoint: 'uploadschool', fieldName: 'school', productField: 'schoolimage' },
+        { file: collegeimage, endpoint: 'uploadcollege', fieldName: 'college', productField: 'collegeimage' },
+        { file: hospitalimage, endpoint: 'uploadhospital', fieldName: 'hospital', productField: 'hospitalimage' },
+        { file: pdf, endpoint: 'uploadpdf', fieldName: 'pdf', productField: 'pdf' }
+      ];
+      
+      // Process each upload
+      for (const upload of uploads) {
+        if (upload.file) {
+          try {
+            console.log(`Uploading ${upload.productField}...`);
+            const url = await uploadFile(upload.file, upload.endpoint, upload.fieldName);
+            
+            if (url) {
+              updatedProduct[upload.productField] = url;
+              hasChanges = true;
+              console.log(`Successfully uploaded ${upload.productField}: ${url}`);
+            }
+          } catch (error) {
+            alert(`Failed to upload ${upload.productField}: ${error.message}`);
+            console.error(`${upload.productField} upload failed:`, error);
+            // Continue with other uploads rather than returning early
+          }
         }
-      } catch (error) {
-        console.error("Error uploading image:", error);
-        alert("An error occurred while uploading the image.");
+      }
+
+      // Check if any text fields were modified
+      const textFields = ['name', 'category', 'start_price', 'end_price', 'location', 'city', 
+                          'land', 'map', 'school_list', 'college_list', 'hospital_list'];
+      
+      textFields.forEach(field => {
+        if (updatedProduct[field] !== productDetails[field]) {
+          hasChanges = true;
+        }
+      });
+
+      // Only send the update request if there were changes
+      if (!hasChanges) {
+        alert("No changes were made to update");
         return;
       }
-    }
 
-    if (image1) {
-      const formData = new FormData();
-      formData.append('product1', image1);
+      console.log("Sending updated product:", updatedProduct);
 
-      const singleImageResponse = await fetch(`${apiurl}api/v1/upload1`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-        },
-        body: formData,
-      });
-      const singleImageData = await singleImageResponse.json();
-
-      if (singleImageData.success) {
-        product.image1 = singleImageData.image_url;
-      } else {
-        console.error('Failed to upload single image:', singleImageData.message);
-      }
-    }
-
-if (image2) {
-      const formData = new FormData();
-      formData.append('product2', image2);
-
-      const singleImageResponse = await fetch(`${apiurl}api/v1/upload3`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-        },
-        body: formData,
-      });
-      const singleImageData = await singleImageResponse.json();
-
-      if (singleImageData.success) {
-        product.image2 = singleImageData.image_url;
-      } else {
-        console.error('Failed to upload single image:', singleImageData.message);
-      }
-    }
-
-    if (image3) {
-      const formData = new FormData();
-      formData.append('product3', image3);
-
-      const singleImageResponse = await fetch(`${apiurl}api/v1/upload4`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-        },
-        body: formData,
-      });
-      const singleImageData = await singleImageResponse.json();
-
-      if (singleImageData.success) {
-        product.image3 = singleImageData.image_url;
-      } else {
-        console.error('Failed to upload single image:', singleImageData.message);
-      }
-    }
-
-    
-    //school college hospital images
-    if (schoolimage) {
-    const formData = new FormData();
-    formData.append('school', schoolimage);
-    
-    const singleImageResponse = await fetch(`${apiurl}api/v1/uploadschool`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
-      body: formData,
-    });
-    const singleImageData = await singleImageResponse.json();
-    
-    if (singleImageData.success) {
-      product.schoolimage = singleImageData.image_url;
-    } else {
-      console.error('Failed to upload single image:', singleImageData.message);
-    }
-    }
-    
-    //college image
-    if (collegeimage) {
-    const formData = new FormData();
-    formData.append('college', collegeimage);
-    
-    const singleImageResponse = await fetch(`${apiurl}api/v1/uploadcollege`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
-      body: formData,
-    });
-    const singleImageData = await singleImageResponse.json();
-    
-    if (singleImageData.success) {
-      product.collegeimage = singleImageData.image_url;
-    } else {
-      console.error('Failed to upload single image:', singleImageData.message);
-    }
-    }
-    
-    //hospital image
-    if (hospitalimage) {
-    const formData = new FormData();
-    formData.append('hospital', hospitalimage);
-    
-    const singleImageResponse = await fetch(`${apiurl}api/v1/uploadhospital`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
-      body: formData,
-    });
-    const singleImageData = await singleImageResponse.json();
-    
-    if (singleImageData.success) {
-      product.hospitalimage = singleImageData.image_url;
-    } else {
-      console.error('Failed to upload single image:', singleImageData.message);
-    }
-    }
-
-//pdf
-if (pdf) {
-  const formData = new FormData();
-  formData.append('pdf', pdf);
-  try {
-    const response = await fetch(`${apiurl}api/v1/uploadpdf`, {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!response.ok) {
-      console.error('Failed to upload PDF:', response.status);
-      return;
-    }
-
-    const data = await response.json();
-    if (data.success) {
-      product.pdf = data.pdf_url;
-    } else {
-      console.error('Failed to upload PDF:', data.message);
-    }
-  } catch (error) {
-    console.error('Error uploading PDF:', error);
-  }
-}
-
-    // Send a PUT request to update the product
-    try {
-      const resp = await fetch(`${apiurl}api/v1/updateproduct/${product._id}`, {
+      // Send the update request to the backend
+      const updateResponse = await fetch(`${apiurl}api/v1/updateproduct/${updatedProduct._id}`, {
         method: 'PUT',
         headers: {
-          Accept: 'application/json',
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
-        body: JSON.stringify(product),
+        body: JSON.stringify(updatedProduct),
       });
-      const data = await resp.json();
 
-      if (data.success) {
-        alert("Product Updated Successfully!");
-        fetchInfo(); // Refresh the product list after updating
+      if (!updateResponse.ok) {
+        const errorText = await updateResponse.text();
+        throw new Error(`Server responded with ${updateResponse.status}: ${errorText}`);
+      }
+
+      const updateData = await updateResponse.json();
+      
+      if (updateData.success) {
+        alert("Product updated successfully!");
+        fetchInfo(); // Refresh the product list
         setIsModalOpen(false); // Close the modal
+        
+        // Reset all states
+        setImage(null);
+        setImage1(null);
+        setImage2(null);
+        setImage3(null);
+        setschoolimage(null);
+        setcollegeimage(null);
+        sethospitalimage(null);
+        setPdf(null);
+        setCurrentImages({
+          image: '',
+          image1: '',
+          image2: '',
+          image3: '',
+          schoolimage: '',
+          collegeimage: '',
+          hospitalimage: '',
+          pdf: ''
+        });
       } else {
-        alert("Failed to update the product.");
+        alert(`Failed to update product: ${updateData.message || 'Unknown error'}`);
+        console.error('Update failed:', updateData);
       }
     } catch (error) {
-      console.error("Error updating product:", error);
-      alert("An error occurred while updating the product.");
+      console.error("Error in update process:", error);
+      alert(`An error occurred while updating the product: ${error.message}`);
+    }
+  };
+
+  // Helper function to render image preview
+  const renderImagePreview = (file, currentUrl, alt) => {
+    if (file) {
+      return <img src={URL.createObjectURL(file)} alt={alt} className="addproduct-thumbnail-img" />;
+    } else if (currentUrl) {
+      return <img src={currentUrl} alt={alt} className="addproduct-thumbnail-img" />;
+    } else {
+      return <MdOutlineCloudUpload className="addproduct-thumbnail-icon" />;
     }
   };
 
@@ -355,13 +355,13 @@ if (pdf) {
               <p>{product.land}</p>
               <p>{product.city}</p>
               <p className="map">{product.map}</p>
-              <p className='imagelist'>{product.schoolimage}</p>
-              <p className='imagelist'>{product.collegeimage}</p>
-              <p className='imagelist'>{product.hospitalimage}</p>
+              <p className='imagelist'>{product.schoolimage && "Yes"}</p>
+              <p className='imagelist'>{product.collegeimage && "Yes"}</p>
+              <p className='imagelist'>{product.hospitalimage && "Yes"}</p>
+              <p className='imagelist'>{product.pdf && "Yes"}</p>
               <p>{product.school_list}</p>
               <p>{product.college_list}</p>
               <p>{product.hospital_list}</p>
-              <p className='imagelist'>{product.pdf}</p>
 
               <MdDeleteForever
                 onClick={() => removeProduct(product._id)}
@@ -389,18 +389,17 @@ if (pdf) {
                 />
                 
 
-       <label htmlFor="category" className="addproduct-itemfield">Category</label>
-          <select
-            value={productDetails.category}
-            onChange={(e) => setProductDetails({ ...productDetails, category: e.target.value })}
-             id="category"
-            className="add-product-selector"
-          >
-            <option value="Ongoing Project">Ongoing Project</option>
-            <option value="Completed Project">Completed Project</option>
-            <option value="Upcoming Project">Upcoming Project</option>
-          </select>
-        
+                <label htmlFor="category" className="addproduct-itemfield">Category</label>
+                <select
+                  value={productDetails.category}
+                  onChange={(e) => setProductDetails({ ...productDetails, category: e.target.value })}
+                  id="category"
+                  className="add-product-selector"
+                >
+                  <option value="Ongoing Project">Ongoing Project</option>
+                  <option value="Completed Project">Completed Project</option>
+                  <option value="Upcoming Project">Upcoming Project</option>
+                </select>
               </div>
               <div className="prices">
                 <label htmlFor="startPrice" className="addproduct-itemfield">Start Price</label>
@@ -475,178 +474,120 @@ if (pdf) {
                 />
               </div>
               <div className='pdf'>
-              <div className="addproduct-itemfield pdfurl">
-          <p>Broucher Upload</p>
-          <input onChange={pdfHandler} type="file" name="pdf" accept="application/pdf" />
-        </div>
-              <div className="mapurl">
-                <label htmlFor="mapUrl" className="addproduct-itemfield">Map URL</label>
-                <input
-                  id="mapUrl"
-                  type="text"
-                  value={productDetails.map}
-                  onChange={(e) => setProductDetails({ ...productDetails, map: e.target.value })}
-                  placeholder="Map URL"
-                />
-              </div>
+                <div className="addproduct-itemfield pdfurl">
+                  <p>Brochure Upload {currentImages.pdf && "(Current PDF available)"}</p>
+                  <input onChange={pdfHandler} type="file" name="pdf" accept="application/pdf" />
+                </div>
+                <div className="mapurl">
+                  <label htmlFor="mapUrl" className="addproduct-itemfield">Map URL</label>
+                  <input
+                    id="mapUrl"
+                    type="text"
+                    value={productDetails.map}
+                    onChange={(e) => setProductDetails({ ...productDetails, map: e.target.value })}
+                    placeholder="Map URL"
+                  />
+                </div>
               </div>
               <div className='images1'>
-                      <div className="addproduct-itemfield2">
-                        <p>Thumbnail Image</p>
-                        <label htmlFor="file-input">
-                          {image ? (
-                            <img
-                              src={URL.createObjectURL(image)}
-                              alt="Preview"
-                              className="addproduct-thumbnail-img"
-                            />
-                          ) : (
-                            <MdOutlineCloudUpload className="addproduct-thumbnail-icon" />
-                          )}
-                        </label>
-                        <input
-                          onChange={handleImageChange}
-                          type="file"
-                          name="image"
-                          id="file-input"
-                          hidden
-                        />
-                      </div>
-              
-                      <div className="addproduct-itemfield2">
-                        <p> Image1</p>
-                        <label htmlFor="file-input1">
-                          {image1 ? (
-                            <img
-                              src={URL.createObjectURL(image1)}
-                              alt="Preview"
-                              className="addproduct-thumbnail-img"
-                            />
-                          ) : (
-                            <MdOutlineCloudUpload className="addproduct-thumbnail-icon" />
-                          )}
-                        </label>
-                        <input
-                          onChange={handleImageChange1}
-                          type="file"
-                          name="image1"
-                          id="file-input1"
-                          hidden
-                        />
-                      </div>
-              
-                      <div className="addproduct-itemfield2">
-                        <p> Image2</p>
-                        <label htmlFor="file-input2">
-                          {image2 ? (
-                            <img
-                              src={URL.createObjectURL(image2)}
-                              alt="Preview"
-                              className="addproduct-thumbnail-img"
-                            />
-                          ) : (
-                            <MdOutlineCloudUpload className="addproduct-thumbnail-icon" />
-                          )}
-                        </label>
-                        <input
-                          onChange={handleImageChange2}
-                          type="file"
-                          name="image2"
-                          id="file-input2"
-                          hidden
-                        />
-                      </div>
-              
-                      <div className="addproduct-itemfield2">
-                        <p> Image3</p>
-                        <label htmlFor="file-input3">
-                          {image3 ? (
-                            <img
-                              src={URL.createObjectURL(image3)}
-                              alt="Preview"
-                              className="addproduct-thumbnail-img"
-                            />
-                          ) : (
-                            <MdOutlineCloudUpload className="addproduct-thumbnail-icon" />
-                          )}
-                        </label>
-                        <input
-                          onChange={handleImageChange3}
-                          type="file"
-                          name="image3"
-                          id="file-input3"
-                          hidden
-                        />
-                      </div>
-              
-              
-                      <div className="addproduct-itemfield2">
-                        <p>School Image</p>
-                        <label htmlFor="file-inputschool">
-                          {schoolimage ? (
-                            <img
-                              src={URL.createObjectURL(schoolimage)}
-                              alt="Preview"
-                              className="addproduct-thumbnail-img"
-                            />
-                          ) : (
-                            <MdOutlineCloudUpload className="addproduct-thumbnail-icon" />
-                          )}
-                        </label>
-                        <input
-                          onChange={handleImageChangeschool}
-                          type="file"
-                          name="schoolimage"
-                          id="file-inputschool"
-                          hidden
-                        />
-                      </div>
-              
-                      <div className="addproduct-itemfield2">
-                        <p>College Image</p>
-                        <label htmlFor="file-inputcollege">
-                          {collegeimage ? (
-                            <img
-                              src={URL.createObjectURL(collegeimage)}
-                              alt="Preview"
-                              className="addproduct-thumbnail-img"
-                            />
-                          ) : (
-                            <MdOutlineCloudUpload className="addproduct-thumbnail-icon" />
-                          )}
-                        </label>
-                        <input
-                          onChange={handleImageChangecollege}
-                          type="file"
-                          name="imagecollege"
-                          id="file-inputcollege"
-                          hidden
-                        />
-                      </div>
-              
-                      <div className="addproduct-itemfield2">
-                        <p>Hospital Image</p>
-                        <label htmlFor="file-inputhospital">
-                          {hospitalimage ? (
-                            <img
-                              src={URL.createObjectURL(hospitalimage)}
-                              alt="Preview"
-                              className="addproduct-thumbnail-img"
-                            />
-                          ) : (
-                            <MdOutlineCloudUpload className="addproduct-thumbnail-icon" />
-                          )}
-                        </label>
-                        <input
-                          onChange={handleImageChangehospital}
-                          type="file"
-                          name="imagehospital"
-                          id="file-inputhospital"
-                          hidden
-                        />
-                      </div>
-                      </div>
-
+                <div className="addproduct-itemfield2">
+                  <p>Thumbnail Image</p>
+                  <label htmlFor="file-input">
+                    {renderImagePreview(image, currentImages.image, "Thumbnail Preview")}
+                  </label>
+                  <input
+                    onChange={handleImageChange}
+                    type="file"
+                    name="image"
+                    id="file-input"
+                    hidden
+                  />
+                </div>
+        
+                <div className="addproduct-itemfield2">
+                  <p>Image 1</p>
+                  <label htmlFor="file-input1">
+                    {renderImagePreview(image1, currentImages.image1, "Image 1 Preview")}
+                  </label>
+                  <input
+                    onChange={handleImageChange1}
+                    type="file"
+                    name="image1"
+                    id="file-input1"
+                    hidden
+                  />
+                </div>
+        
+                <div className="addproduct-itemfield2">
+                  <p>Image 2</p>
+                  <label htmlFor="file-input2">
+                    {renderImagePreview(image2, currentImages.image2, "Image 2 Preview")}
+                  </label>
+                  <input
+                    onChange={handleImageChange2}
+                    type="file"
+                    name="image2"
+                    id="file-input2"
+                    hidden
+                  />
+                </div>
+        
+                <div className="addproduct-itemfield2">
+                  <p>Image 3</p>
+                  <label htmlFor="file-input3">
+                    {renderImagePreview(image3, currentImages.image3, "Image 3 Preview")}
+                  </label>
+                  <input
+                    onChange={handleImageChange3}
+                    type="file"
+                    name="image3"
+                    id="file-input3"
+                    hidden
+                  />
+                </div>
+        
+                <div className="addproduct-itemfield2">
+                  <p>School Image</p>
+                  <label htmlFor="file-inputschool">
+                    {renderImagePreview(schoolimage, currentImages.schoolimage, "School Image Preview")}
+                  </label>
+                  <input
+                    onChange={handleImageChangeschool}
+                    type="file"
+                    name="schoolimage"
+                    id="file-inputschool"
+                    hidden
+                  />
+                </div>
+        
+                <div className="addproduct-itemfield2">
+                  <p>College Image</p>
+                  <label htmlFor="file-inputcollege">
+                    {renderImagePreview(collegeimage, currentImages.collegeimage, "College Image Preview")}
+                  </label>
+                  <input
+                    onChange={handleImageChangecollege}
+                    type="file"
+                    name="imagecollege"
+                    id="file-inputcollege"
+                    hidden
+                  />
+                </div>
+        
+                <div className="addproduct-itemfield2">
+                  <p>Hospital Image</p>
+                  <label htmlFor="file-inputhospital">
+                    {renderImagePreview(hospitalimage, currentImages.hospitalimage, "Hospital Image Preview")}
+                  </label>
+                  <input
+                    onChange={handleImageChangehospital}
+                    type="file"
+                    name="imagehospital"
+                    id="file-inputhospital"
+                    hidden
+                  />
+                </div>
+              </div>
 
               <button onClick={updateProduct} className="update-btn">Update Product</button>
             </div>

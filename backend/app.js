@@ -24,6 +24,7 @@ const auth = require('./routes/auth');
 const uploadDir = path.join(__dirname, 'upload', 'images');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
+    
 }
 
 // Image Storage Engine
@@ -306,90 +307,90 @@ app.post('/api/v1/uploadpdf', (req, res) => {
 
 // Schema for Creating Products
 const Product = mongoose.model("Product", {
-    id: {
-        type: String,
-        required: false,
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    image: {
-        type: String,
-        required: true,
-    },
-    image1: {
-      type: String,
-      required: true,
+  id: {
+    type: String,
+    default: ""
+  },
+  name: {
+    type: String,
+    default: "New Project"
+  },
+  image: {
+    type: String,
+    default: ""
+  },
+  image1: {
+    type: String,
+    default: ""
   },
   image2: {
     type: String,
-    required: true,
-   },
+    default: ""
+  },
   image3: {
-  type: String,
-  required: true,
+    type: String,
+    default: ""
   },
   schoolimage: {
     type: String,
-    required: true,
-   },
-   collegeimage: {
-     type: String,
-     required: true,
-   },
-   hospitalimage: {
-     type: String,
-     required: true,
-   },
-    category: {
-        type: String,
-        required: true,
-    },
-    start_price: {
-        type: String,
-        required: true,
-    },
-    end_price: {
-        type: String,
-        required: true,
-    },
-    location: {
-        type: String,
-        required: true,
-    },
-    city: {
-        type: String,
-        required: true,
-    },
-    map: {
-        type: String,
-        required: true,
-    },
-    land: {
-        type: String,
-        required: true,
-    },
-    school_list: {
-        type: String,
-        required: true,
-    },
-    college_list: {
-        type: String,
-        required: true,
-    },
-    hospital_list: {
-        type: String,
-        required: true,
-    },
-    pdf:{
-        type: String,
-        required: true,
-    },
-    date: {
-        type: Date,
-        default: Date.now,
-    }
+    default: ""
+  },
+  collegeimage: {
+    type: String,
+    default: ""
+  },
+  hospitalimage: {
+    type: String,
+    default: ""
+  },
+  category: {
+    type: String,
+    default: "General"
+  },
+  start_price: {
+    type: String,
+    default: "0"
+  },
+  end_price: {
+    type: String,
+    default: "0"
+  },
+  location: {
+    type: String,
+    default: "Not Specified"
+  },
+  city: {
+    type: String,
+    default: "Unknown"
+  },
+  map: {
+    type: String,
+    default: ""
+  },
+  land: {
+    type: String,
+    default: "0 sqft"
+  },
+  school_list: {
+    type: String,
+    default: ""
+  },
+  college_list: {
+    type: String,
+    default: ""
+  },
+  hospital_list: {
+    type: String,
+    default: ""
+  },
+  pdf: {
+    type: String,
+    default: ""
+  },
+  date: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 
@@ -441,47 +442,101 @@ app.post('/api/v1/addproduct', async (req, res) => {
 });
 
 // Product Update Endpoint
+// Product Update Endpoint
 app.put('/api/v1/updateproduct/:id', async (req, res) => {
     try {
-        // Find product by id and update with new data
-        const updatedProduct = await Product.findByIdAndUpdate(
-            req.params.id,
-            {
-                name: req.body.name,
-                image: req.body.image,
-                location: req.body.location,
-                category: req.body.category,
-                start_price: req.body.start_price,
-                end_price: req.body.end_price,
-                city: req.body.city,
-                land: req.body.land,
-                map: req.body.map,
-                school_list: req.body.school_list,
-                college_list: req.body.college_list,
-                hospital_list: req.body.hospital_list,
-                pdf:req.body.pdf
-            },
-            { new: true } // Returns the updated product
-        );
-
-        if (!updatedProduct) {
+        // Log the incoming request
+        console.log("Update request received for ID:", req.params.id);
+        console.log("Update payload:", JSON.stringify(req.body, null, 2));
+        
+        // Check if ID is valid
+        if (!req.params.id) {
+            return res.status(400).json({
+                success: false,
+                message: 'Product ID is required'
+            });
+        }
+        
+        // Find the product first to verify it exists and to preserve fields
+        const existingProduct = await Product.findById(req.params.id);
+        if (!existingProduct) {
+            console.log("Product not found:", req.params.id);
             return res.status(404).json({
                 success: false,
                 message: 'Product not found'
             });
         }
+        
+        // Create an update object that preserves existing values
+        // and only updates provided fields
+        const updateData = { ...existingProduct.toObject() };
+        
+        // Only update fields that are explicitly provided in the request body
+        if (req.body.name !== undefined) updateData.name = req.body.name;
+        if (req.body.image !== undefined) updateData.image = req.body.image;
+        if (req.body.image1 !== undefined) updateData.image1 = req.body.image1;
+        if (req.body.image2 !== undefined) updateData.image2 = req.body.image2;
+        if (req.body.image3 !== undefined) updateData.image3 = req.body.image3;
+        if (req.body.schoolimage !== undefined) updateData.schoolimage = req.body.schoolimage;
+        if (req.body.collegeimage !== undefined) updateData.collegeimage = req.body.collegeimage;
+        if (req.body.hospitalimage !== undefined) updateData.hospitalimage = req.body.hospitalimage;
+        if (req.body.category !== undefined) updateData.category = req.body.category;
+        if (req.body.start_price !== undefined) updateData.start_price = req.body.start_price;
+        if (req.body.end_price !== undefined) updateData.end_price = req.body.end_price;
+        if (req.body.location !== undefined) updateData.location = req.body.location;
+        if (req.body.city !== undefined) updateData.city = req.body.city;
+        if (req.body.land !== undefined) updateData.land = req.body.land;
+        if (req.body.map !== undefined) updateData.map = req.body.map;
+        if (req.body.school_list !== undefined) updateData.school_list = req.body.school_list;
+        if (req.body.college_list !== undefined) updateData.college_list = req.body.college_list;
+        if (req.body.hospital_list !== undefined) updateData.hospital_list = req.body.hospital_list;
+        if (req.body.pdf !== undefined) updateData.pdf = req.body.pdf;
+        
+        // Remove MongoDB-specific fields to avoid "Performing an update on the path '_id' would modify the immutable field '_id'" error
+        delete updateData._id;
+        
+        // Perform the update with the properly prepared data
+        console.log("Updating with data:", JSON.stringify(updateData, null, 2));
+        
+        const updatedProduct = await Product.findByIdAndUpdate(
+            req.params.id,
+            updateData,
+            { 
+                new: true,  // Return the updated document
+                runValidators: true  // Run schema validators
+            }
+        );
 
-        console.log("Updated Product:", updatedProduct);
-        res.json({
+        console.log("Product updated successfully:", updatedProduct);
+        
+        return res.status(200).json({
             success: true,
-            message: 'Product updated successfully!',
+            message: 'Product updated successfully',
             product: updatedProduct
         });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({
+        console.error("Error in update endpoint:", error);
+        
+        // Specific error handling
+        if (error.name === 'CastError') {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid product ID format',
+                error: error.message
+            });
+        }
+        
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                success: false,
+                message: 'Validation error',
+                error: error.message
+            });
+        }
+        
+        return res.status(500).json({
             success: false,
-            message: 'An error occurred while updating the product',
+            message: 'Server error while updating product',
             error: error.message
         });
     }

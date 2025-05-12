@@ -283,6 +283,7 @@ if (pdf) {
             type="text"
             name="name"
             placeholder="Type here"
+            
           />
         </div>
 
@@ -295,6 +296,7 @@ if (pdf) {
               type="text"
               name="start_price"
               placeholder="Type here"
+              
             />
           </div>
           <div className="addproduct-itemfield">
