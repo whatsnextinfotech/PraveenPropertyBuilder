@@ -53,7 +53,7 @@ const ContactPage = () => {
 
   return (
     
-    <div className='contact' style={{}}>
+    <div className='contact ' style={{ marginBottom:'150px'}}>
     <div
       style={{
         backgroundImage: `url(${bg})`,
@@ -61,6 +61,7 @@ const ContactPage = () => {
         backgroundPosition: 'center',
         height: '100vh',
         color: 'white',
+       
         
       }}
     >
@@ -144,7 +145,7 @@ const ContactPage = () => {
         </Container>
       </div>
 
-      <div className="contact-map" style={{ marginTop: '5px', border: '10px solid #ff6600' }}>
+      <div className="contact-map " style={{ marginTop: '5px', border: '10px solid #ff6600' }}>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.3730443619324!2d80.13500097507603!3d12.947964587365254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a525fac26b1f4dd%3A0x1be870075efa5202!2s219%2C%20Grand%20Southern%20Trunk%20Rd%2C%20Chromepet%2C%20Chennai%2C%20Tamil%20Nadu%20600044!5e0!3m2!1sen!2sin!4v1731476656692!5m2!1sen!2sin"
           allowFullScreen=""
